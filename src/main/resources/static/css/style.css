@@ -1,0 +1,26 @@
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: #090000;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 12px;
+    background: linear-gradient(to bottom,  #480510,#090808);
+
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(to bottom,  #480510,#090808);
+
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    direction: rtl;
+    text-align: right;
+    background-color: #090808;
+
+}

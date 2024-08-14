@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>احياها</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css" />
+    <script type="text/javascript"
+            src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+    <script type="text/javascript">
+        emailjs.init('7h6AG0ZC6-PEIYcOp')
+    </script>
+
+    <style>
+        body {
+            direction: rtl;
+            text-align: right;
+            background-color: rgb(3, 2, 1);
+        }
+
+
+        .card {
+            position: relative;
+            padding: 0;
+            margin: 0 !important;
+            border-radius: 20px;
+            overflow: hidden;
+            max-width: 280px;
+            max-height: 340px;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+
+        }
+
+        /*.card .card-image {*/
+        /*    width: 100%;*/
+        /*    max-height: 340px;*/
+        /*}*/
+
+        .card .card-image img {
+            width: 100%;
+            max-height: 340px;
+            object-fit: cover;
+        }
+
+        .card .card-content {
+            position: absolute;
+            bottom: -180px;
+            color: #fff;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(15px);
+            min-height: 140px;
+            width: 100%;
+            transition: bottom .4s ease-in;
+            box-shadow: 0 -10px 10px rgba(255, 255, 255, 0.1);
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .card:hover .card-content {
+            bottom: 0px;
+        }
+
+        .card:hover .card-content h4,
+        .card:hover .card-content h5 {
+            transform: translateY(10px);
+            opacity: 1;
+        }
+
+        .card .card-content h4,
+        .card .card-content h5 {
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            text-align: center;
+            transition: 0.8s;
+            font-weight: 500;
+            opacity: 0;
+            transform: translateY(-40px);
+            transition-delay: 0.2s;
+        }
+
+        .card .card-content h5 {
+            transition: 0.5s;
+            font-weight: 200;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+        }
+
+        .card .card-content .social-icons {
+            list-style: none;
+            padding: 0;
+        }
+
+
+        .card .card-content .social-icons li {
+            margin: 10px;
+            transition: 0.5s;
+            transition-delay: calc(0.15s * var(--i));
+            transform: translateY(50px);
+        }
+
+
+        .card:hover .card-content .social-icons li {
+            transform: translateY(20px);
+        }
+
+        .card .card-content .social-icons li a {
+            color: #fff;
+        }
+
+        .card .card-content .social-icons li a span {
+            font-size: 1.3rem;
+        }
+    </style>
+</head>
+<body class="text-white">
+<header class="relative h-screen bg-cover bg-center">
+    <img th:src="@{/images/photo_5794282552050172664_y.jpg}" alt="Background Image" class="absolute inset-0 w-full h-full object-cover">
+    <div class="absolute inset-0 bg-black opacity-50"></div>
+    <div class="relative z-10 flex items-center justify-center h-full text-white text-center">
+        <div>
+            <h1 class="text-4xl font-bold mb-4">قال الإمام الصادق (ع‏) إنّ تلك المجالس أحبُّها، فأحيوا أمرنا فرحم الله من أحيا أمرنا</h1>
+            <a th:href="@{/SignUp}">
+                <button class="px-6 py-3 bg-red-800 text-white rounded-full hover:bg-black focus:outline-none">سجل الآن</button>
+            </a>
+            <a th:href="@{/LogIn}" class="px-6 py-3 bg-gray-800 text-white rounded-full hover:bg-gray-700 text-decoration-none focus:outline-none">
+                تسجيل الدخول
+            </a>
+
+        </div>
+    </div>
+</header>
+
+<section class="py-12">
+    <div class="container mx-auto">
+        <h2 class="text-3xl font-bold text-center mb-8">رواديد</h2>
+
+        <div class="row">
+
+    <div th:each="user : ${rawaded}" class="col-lg-4">
+        <div class="card p-0">
+            <div class="card-image">
+                <img th:if="${user.profileImage!=null}" th:src="${user.profileImage.fileName}"
+                     alt="Profile Image">
+                <!-- Placeholder image if user.image.url is empty or null -->
+                <img th:unless="${user.profileImage!=null}"
+                     th:src="@{/images/hussien2.jpg}"
+                     alt="No Image">
+            </div>
+            <div class="card-content bg-dark d-flex flex-column align-items-center">
+                <h4 class="pt-2" th:text="${user.username}">Username</h4>
+                <h5 th:text="${user.followersCount}+  lover"></h5>
+
+                <ul class="social-icons d-flex justify-content-center">
+                    <li style="--i:1">
+                        <a th:href="@{/viewRadoudChannel/{user}(user=${user.id})}">
+                            <span class="fas fa-music"></span>
+                        </a>
+                    </li>
+                    <li style="--i:2">
+                        <a href="#" th:if="${user.youtubelink!=null}">
+                            <span class="fab fa-youtube"></span>
+                        </a>
+                    </li>
+                    <li style="--i:3" th:if="${user.instalink!=null}">
+                        <a href="#">
+                            <span class="fab fa-instagram"></span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</section>
+<section class="py-12">
+    <div class="container mx-auto">
+        <h2 class="text-3xl font-bold text-center mb-8">مجالس</h2>
+
+        <div class="row">
+
+            <div th:each="post : ${majalis}" class="col-lg-4">
+                <div class="card p-0">
+                    <div class="card-image">
+                        <img th:src="${post.invitationImage.fileName}" alt="" th:alt="${post.title}">
+                    </div>
+                    <div class="card-content bg-dark d-flex flex-column align-items-center">
+                        <h4 class="pt-2" th:text="${post.date} "></h4>
+                        <h5 class="pt-2" th:text="${post.location} "></h5>
+
+                        <h5 class="pt-2"th:text="${post.title}"></h5>
+                        <h5 class="pt-2 ">
+                        <a th:href="@{/majlisDetails/{id}(id=${post.id})}" class="text-red-800 hover:text-white text-decoration-none">اعرف المزيد &rarr;</a>
+                        </h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="py-12 bg-dark opacity-75">
+    <div class="container mx-auto">
+        <div class="flex flex-wrap -mx-2">
+            <div class="w-full lg:w-1/2 px-4 mb-8">
+                <h2 class="text-3xl font-bold mb-4">من نحن</h2>
+                <p class="mb-4 leading-loose">انضم إلى "احياها"، موقعك الموثوق لتحديد مواقع مجالس العزاء الحسيني ومتابعة قنوات الرواديد لبث المحتوى الإسلامي. اكتشف الفوائد الجليلة لمجالس الإمام الحسين وتواصل مع مجتمعك عبر تجربة مميزة في نشر القيم الإسلامية. "احياها" يوفر لك الوصول السهل إلى أحداث المجالس، متابعة الرواديد المفضلين لديك، واستلام إشعارات بالأحداث الجديدة. كن جزءًا من إحياء ذكرى الإمام الحسين وانشر رسالته السامية مع "احياها".</p>
+<!--                <p class="mb-4 leading-loose">تتضمن خدماتنا مجموعة متنوعة من الفعاليات المباشرة بمشاركة أبرز الفنانين والمواهب العالمية. نحن نؤمن بأهمية الاتصال الحقيقي والتجربة العاطفية في عالمنا المتصل دائمًا.</p>-->
+            </div>
+            <div class="w-full lg:w-1/2 px-4 mb-8">
+                <h2 class="text-3xl font-bold mb-4">اتصل بنا</h2>
+                <form id="contact-form" class="mb-4">
+                    <input required type="text" id="name" name="name"placeholder="الاسم الكامل" class="w-full bg-black text-white border-2 border-black py-2 px-4 rounded-md mb-3 focus:outline-none focus:border-red-500">
+                    <input required type="email" name="email" id="email" placeholder="البريد الإلكتروني" class="w-full bg-black text-white border-2 border-black py-2 px-4 rounded-md mb-3 focus:outline-none focus:border-red-500">
+                    <textarea required id="message" name="message" placeholder="رسالتك" rows="4" class="w-full bg-black text-white border-2 border-black py-2 px-4 rounded-md mb-3 focus:outline-none focus:border-red-500"></textarea>
+                    <button type="submit" id="button" class="w-full bg-red-800 text-white py-2 px-4 rounded-md hover:bg-gray-500 focus:outline-none">إرسال</button>
+                </form>
+                <p class="text-sm text-gray-400">يمكنك أيضًا الاتصال بنا عبر البريد الإلكتروني على  zeinabkassir.dev@gmail.com</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    const btn = document.getElementById('button');
+
+    document.getElementById('contact-form')
+        .addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            btn.value = 'Sending...';
+
+            const serviceID = 'service_8i9d3l9';
+            const templateID = 'template_wjog4zt';
+
+            emailjs.sendForm(serviceID, templateID, this)
+                .then(() => {
+                    btn.value = 'Send Email';
+                    alert('Sent!');
+                }, (err) => {
+                    btn.value = 'Send Email';
+                    alert(JSON.stringify(err));
+                });
+        });
+</script>
+</body>
+</html>

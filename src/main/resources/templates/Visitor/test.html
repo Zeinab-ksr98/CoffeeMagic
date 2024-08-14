@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coffee Blog</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            background-color: #2e1e1e;
+            color: #f5f5f5;
+        }
+        h2{
+            font-family: 'Great Vibes','Pacifico', cursive;
+        }
+
+        .card {
+            background-color: #4e3629;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .placeholder {
+            height: 150px;
+            width: 100%;
+            background-color: #e5e7eb;
+            border-radius: 10px;
+        }
+
+        .icon {
+            height: 40px;
+            width: 40px;
+            background-color: #e5e7eb;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- Blog Section -->
+<section class="px-10 py-8">
+    <h2 class="text-3xl font-semibold text-center mb-10">Our Blog</h2>
+    <div class="flex space-x-8">
+        <div class="card flex-1">
+            <div class="placeholder mb-4"></div>
+            <h3 class="text-xl font-semibold mb-4">How To Make A Great Coffee</h3>
+            <p class="mb-6">Making a Cup of Coffee Doesn't Have to Be Complicated. Start by
+                Getting Your Hands on the Coffee Beans...</p>
+            <div class="flex justify-between items-center">
+                <div class="flex space-x-2">
+                    <div class="icon"></div>
+                    <div class="icon"></div>
+                    <div class="icon"></div>
+                </div>
+                <a href="#" class="text-yellow-500">More</a>
+            </div>
+        </div>
+        <div class="card flex-1">
+            <div class="placeholder mb-4"></div>
+            <h3 class="text-xl font-semibold mb-4">Why Does Caffeine Make Us Stay Awake?</h3>
+            <p class="mb-6">Caffeine Works by Blocking Adenosine Receptors in the Brain. Here’s
+                How It Works...</p>
+            <div class="flex justify-between items-center">
+                <div class="flex space-x-2">
+                    <div class="icon"></div>
+                    <div class="icon"></div>
+                    <div class="icon"></div>
+                </div>
+                <a href="#" class="text-yellow-500">More</a>
+            </div>
+        </div>
+        <div class="card flex-1">
+            <div class="placeholder mb-4"></div>
+            <h3 class="text-xl font-semibold mb-4">Different Types Of Coffee</h3>
+            <p class="mb-6">Coffee Is Enjoyed All Around the World. Explore the Various Types of
+                Coffee That You Can Enjoy...</p>
+            <div class="flex justify-between items-center">
+                <div class="flex space-x-2">
+                    <div class="icon"></div>
+                    <div class="icon"></div>
+                    <div class="icon"></div>
+                </div>
+                <a href="#" class="text-yellow-500">More</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Recommended Section -->
+<section class="px-10 py-8 bg-[#1c0c0c]">
+    <h2 class="text-3xl font-semibold text-center mb-10 text-yellow-300">Recommended</h2>
+    <div class="flex space-x-8 justify-center">
+        <div class="card flex-1">
+            <div class="placeholder mb-4"></div>
+            <p class="text-center mt-2">Arabica</p>
+            <p class="text-center text-yellow-500 mt-1">Dark Roast</p>
+        </div>
+        <div class="card flex-1">
+            <div class="placeholder mb-4"></div>
+            <p class="text-center mt-2">House Blend</p>
+            <p class="text-center text-yellow-500 mt-1">Dark Roast</p>
+        </div>
+        <div class="card flex-1">
+            <div class="placeholder mb-4"></div>
+            <p class="text-center mt-2">Robusta</p>
+            <p class="text-center text-yellow-500 mt-1">Dark Roast</p>
+        </div>
+    </div>
+</section>
+
+<!-- Offer Section -->
+<section class="px-10 py-8">
+    <div class="card mx-auto max-w-4xl flex items-center space-x-8">
+        <div class="w-1/2">
+            <div class="placeholder"></div>
+        </div>
+        <div class="w-1/2">
+            <h2 class="text-3xl font-semibold mb-4">Offer</h2>
+            <p class="text-yellow-500 text-lg mb-6">Up To 50% Off</p>
+            <p class="mb-6">At Our Café, We Take Pride In Providing Our Customers With The Best
+                Coffee Around. Our Carefully-Selected Coffees Come From Some Of The Most Renowned Coffee-Growing Regions In The World...</p>
+            <a href="#" class="inline-block bg-yellow-500 text-black px-6 py-3 rounded-full">Shop Now</a>
+        </div>
+    </div>
+</section>
+
+<!-- Reservation Section -->
+<section class="px-10 py-8">
+    <h2 class="text-3xl font-semibold text-center mb-10">Reserve a Table</h2>
+    <div class="card mx-auto max-w-4xl flex items-center space-x-8">
+        <div class="w-1/2">
+            <div class="placeholder"></div>
+        </div>
+        <div class="w-1/2">
+            <form class="space-y-4">
+                <input type="date" placeholder="Date" class="w-full p-3 bg-gray-100 rounded-lg">
+                <input type="time" placeholder="Time" class="w-full p-3 bg-gray-100 rounded-lg">
+                <input type="number" placeholder="Guest" class="w-full p-3 bg-gray-100 rounded-lg">
+                <input type="text" placeholder="Your Name" class="w-full p-3 bg-gray-100 rounded-lg">
+                <input type="tel" placeholder="Your Phone" class="w-full p-3 bg-gray-100 rounded-lg">
+                <input type="email" placeholder="Your Email" class="w-full p-3 bg-gray-100 rounded-lg">
+                <button class="w-full p-3 bg-yellow-500 rounded-lg text-black">Reserve</button>
+            </form>
+        </div>
+    </div>
+</section>
+
+</body>
+
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Streaming Platform</title>
+    <link rel="stylesheet" href="/css/style.css" />
+
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <style>
+        .bg-custom-purple {
+            background-color: #480510;
+        }
+        .text-custom-purple {
+            color: #480510;
+        }
+        .hover-bg-custom-purple:hover {
+            background-color: #480510;
+        }
+        /* Additional styles for Arabic text alignment */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            direction: rtl;
+            text-align: right;
+        }
+
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-900">
+<header class="relative h-screen bg-cover bg-center">
+
+    <VIDEO th:if="${topVedio==null}" th:src="@{topVedio.url}" autoplay loop class="absolute inset-0 w-full h-full object-cover"></VIDEO>
+    <div th:unless="${topVedio==null}" class="absolute inset-0 bg-black opacity-25"></div>
+
+    <img th:src="@{/images/photo_5812083215807136355_y.jpg}" alt="Background Image" class="absolute inset-0 w-full h-full object-cover">
+    <div class="absolute inset-0 bg-black opacity-25"></div>
+    <div th:include="fragments/header::header" ></div>
+    <div class="relative z-10 flex items-center justify-center  h-full">
+            <img th:src="@{/images/كل-الخير-في-باب-الحسين.png}" width="300"  alt="كل الخير في باب الحسين">
+    </div>
+</header>
+
+<section class="py-12 bg-black">
+    <div class="container mx-auto">
+        <h2 class="text-3xl font-bold mb-8 text-custom-purple">يبث الآن </h2>
+        <div class="flex flex-wrap -mx-4">
+            <div class="w-full sm:w-1/2 lg:w-1/4 px-4 mb-8">
+                <div class="bg-white rounded-lg overflow-hidden shadow-lg">
+                    <img class="w-full h-48 object-cover" src="https://placehold.co/400x400" alt="Show 1">
+                    <div class="p-4">
+                        <h3 class="text-lg font-bold mb-2">Under Investigation</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-12 bg-black">
+    <div class="container mx-auto">
+        <div class="most-popular">
+            <h2 class="text-3xl font-bold mb-8 text-custom-purple">مجالس اليوم</h2>
+            <div class="row">
+                <div class="col-3" th:each="post : ${todayMajlis}">
+                    <img th:src="${post.getPostImage.fileName}" alt="" th:alt="${post.title}">
+                    <p th:text="${post.title}"></p>
+                    <small th:text="${post.location}"></small>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="py-12 bg-black">
+    <div class="container mx-auto">
+        <h2 class="text-3xl font-bold mb-8 text-custom-purple">الأكثر انتشارًا هذا الشهر</h2>
+        <div class="flex flex-wrap -mx-4">
+            <div class="w-full sm:w-1/2 lg:w-1/4 px-4 mb-8" th:each="newRelease : ${newReleases}">
+                <div class="bg-white rounded-lg overflow-hidden shadow-lg">
+                    <!-- Conditional rendering based on mediaCategory -->
+                    <div th:switch="${newRelease.mediaCategory.toString()}">
+                        <!-- Display image if mediaCategory is profileImage, bannerImage, MajlisImages, or MajlisInvitationImage -->
+                        <div  th:case="'MajlisInvitationImage'">
+                            <img class="w-full h-48 object-cover" th:src="${newRelease.fileName}" alt="Media Image">
+                            <div class="p-4">
+                                <h3 class="text-lg font-bold mb-2" th:text="${newRelease.title}">New Release Title</h3>
+                            </div>
+                        </div>
+                        <!-- Display video if mediaCategory is UserVideo or MajlisVideos -->
+                        <div th:case="'UserVideo'" >
+                            <video class="w-full h-48 object-cover" controls>
+                                <source th:src="${newRelease.fileName}" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                            <div class="p-4">
+                                <h3 class="text-lg font-bold mb-2" th:text="${newRelease.title}">New Release Title</h3>
+                            </div>
+                        </div>
+                        <!-- Display audio if mediaCategory is UserMusic or MajlisMusicList -->
+                        <div th:case="'UserMusic'">
+                            <audio class="w-full h-48 object-cover" controls>
+                                <source th:src="${newRelease.fileName}" type="audio/mpeg">
+                                Your browser does not support the audio element.
+                            </audio>
+                            <div class="p-4">
+                                <h3 class="text-lg font-bold mb-2" th:text="${newRelease.title}">New Release Title</h3>
+                            </div>
+                        </div>
+                        <!-- Default case if no match -->
+                        <div th:case="*">
+                            <p>Unsupported media type</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+
+</body>
+</html>
+

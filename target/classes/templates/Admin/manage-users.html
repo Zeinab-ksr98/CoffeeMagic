@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="ar" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Include Bootstrap JavaScript and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <style>
+        body {
+            background: linear-gradient(to top, #480510, #090808);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            direction: rtl;
+            text-align: right;
+        }
+
+        /* Styles for active usersComponents */
+        .active-user {
+            /* Example styles: change as needed */
+            background: whitesmoke; /* Change text color to gray for active usersComponents */
+        }
+
+        /* Styles for inactive usersComponents */
+        .inactive-user {
+            /* Example styles: change as needed */
+            background: lavender; /* Change text color to blue for inactive usersComponents */
+        }
+
+    </style>
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+<div class="container">
+    <div class="d-flex justify-content-end align-items-center">
+        <button class="btn text-light mb-0 d-flex align-items-center" data-target="#exampleModalCenter" data-toggle="modal"
+                style="margin: 20px 0; background: #155FA9" type="button">
+            <img alt="add-user-male" height="24" src="https://img.icons8.com/pulsar-line/48/FFFFFF/add-user-male.png"
+                 width="24"/>
+            <span class="mr-2"> Create Account </span>
+
+        </button>
+    </div>
+
+    <div aria-hidden="true" aria-labelledby="exampleModalCenterTitle" class="modal fade mt-1" id="exampleModalCenter"
+         role="dialog" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <form method="Post" th:action="@{/admin-create-withRole}">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Create</h5>
+                        <button aria-label="Close" class="close" data-dismiss="modal"
+                                type="button">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body text-center">
+                        <div class="form-check mt-3">
+                            <input class="form-control" id="name" name="username" placeholder="username" required
+                                   type="text">
+                        </div>
+                        <div class="form-check mt-3">
+                            <input class="form-control" id="email" name="email" placeholder="email" required
+                                   type="email">
+                        </div>
+
+                        <div class="form-check mt-3">
+                            <input class="form-control" id="phone" name="phone" placeholder="phone" required
+                                   type="text">
+                        </div>
+
+                        <div th:each="statusOption : ${T(com.dgpad.thyme.model.enums.Role).values()}">
+                            <div th:unless="${statusOption.name() == 'VISITOR'}">
+                                <input type="radio" class="form-check-input"
+                                       th:id="${'status_' + statusOption}"
+                                       name="role"
+                                       th:value="${statusOption.name()}"
+                                       th:attr="data-role=${statusOption}" />
+                                <label th:for="${'status_' + statusOption}" th:text="${statusOption}"></label>
+                                <br>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" data-dismiss="modal"
+                                type="button">Close
+                        </button>
+                        <input class="btn btn-primary" type="submit" value="Save Changes">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="row " style="background: transparent">
+        <div class="col-lg-4 col-md-6 col-sm-12 mb-3 mt-3" th:each="user, categoryIndex : ${users}">
+            <div th:classappend="${user.enabled} ? 'active-user' : 'inactive-user'">
+                <div class="card-body ">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="card-title">
+                            <h5 style="color: #155FA9" th:text="${user.username}"></h5>
+                        </div>
+                        <div class="ml-auto mr-1">
+                            <button data-toggle="modal" style="border: none; background: transparent "
+                                    th:attr="data-target='#emailModal'+${user.id}" >
+                                <img alt="mail" height="24" src="https://img.icons8.com/pulsar-line/48/228BE6/mail.png"
+                                     width="24"/>
+                            </button>
+                            <button data-toggle="modal" style="border: none ; background: transparent"
+                                    th:attr="data-target='#updateModal'+${user.id}">
+                                <img alt="edit-user" height="24"
+                                     src="https://img.icons8.com/fluency-systems-filled/48/737373/edit-user.png"
+                                     width="24"/>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-text">
+                        <p th:text="${user.email}"></p>
+                        <p th:text="${user.enabled ? 'Active' : 'Not Active'}"></p>
+                        <p th:text="${user.role.name}"></p>
+                        <p th:text="${user.phone}"></p>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <a class="btn btn-secondary" th:href="@{users/deactivate/{id}(id=${user.id.toString()})}"
+                       th:if="${user.enabled}">
+                        Deactivate
+                    </a>
+                    <a class="btn btn-info" th:href="@{users/activate/{id}(id=${user.id.toString()})}"
+                       th:unless="${user.enabled}">
+                        Activate
+                    </a>
+                    <a class="btn btn-danger " th:href="@{users/block/{id}(id=${user.id.toString()})}"
+                       th:unless="${#strings.contains(user.role, 'ADMIN')}">
+                        Block
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--    update modal-->
+    <div class="modal fade" role="dialog" tabindex="-1" th:each="user : ${users}" th:id="'updateModal'+${user.id}">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit details</h5>
+                    <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <!-- Input fields for updating data -->
+                <form method="post" th:action="@{/edit-account}">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <input class="form-control" id="id" name="id" readonly th:value="${user.id}" type="text">
+                        </div>
+                        <div class="form-group">
+                            <label for="updatedName">New User Name:</label>
+                            <input class="form-control" id="updatedName" name="updatedName" placeholder="Category Name"
+                                   required th:value="${user.username}" type="text">
+                        </div>
+                        <div class="form-group">
+                            <label for="updatedName">New Email :</label>
+                            <input class="form-control" id="updatedEmail" name="updatedEmail" placeholder="Category Name"
+                                   required th:value="${user.email}" type="email">
+                        </div>
+                        <div class="form-group">
+                            <label for="updatedName">New Phone :</label>
+                            <input class="form-control" id="updatedPhone" name="updatedPhone" placeholder="Category Name"
+                                   required th:value="${user.phone}" type="tel">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" type="submit">Update</button>
+                        <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" role="dialog" tabindex="-1" th:each="user : ${users}" th:id="'emailModal'+${user.id}">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">massage user</h5>
+                    <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <!-- Input fields for updating data -->
+                <form method="post" th:action="@{u/send-mail}">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="to">Recipient</label>
+                            <input class="form-control" id="to" name="to" readonly th:value="${user.email}" type="text">
+
+                        </div>
+                        <div class="form-group">
+                            <label for="massage"> Mail Subject</label>
+                            <input class="form-control" id="subject" name="subject" required type="text">
+                        </div>
+                        <div class="form-group">
+                            <label for="massage"> Mail content</label>
+                            <input class="form-control" id="massage" name="massage" required type="text">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" type="submit">send</button>
+                        <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+</div>
+</div>
+
+</body>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</html>
