@@ -4,8 +4,7 @@ import com.dgpad.thyme.media.FileUploadService;
 import com.dgpad.thyme.media.MediaRepository;
 import com.dgpad.thyme.model.User;
 import com.dgpad.thyme.model.Post;
-import com.dgpad.thyme.repository.MajlisRepository;
-import com.dgpad.thyme.service.UserService;
+import com.dgpad.thyme.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,7 +19,7 @@ import java.util.UUID;
 @Transactional
 public class PostService {
     @Autowired
-    private  MajlisRepository majlisRepository;
+    private PostRepository postRepository;
     @Autowired
     private MediaRepository mediaRepository;
     @Autowired
@@ -39,62 +38,62 @@ public class PostService {
         post.setUser(user);
 
         // Assuming User object creation by id or use appropriate service for fetching User
-        return majlisRepository.save(post);
+        return postRepository.save(post);
     }
 
     public List<Post> getAllMajlis() {
-        return majlisRepository.findAll();
+        return postRepository.findAll();
     }
     public List<Post> findMajlisTodayAndUpcoming() {
         LocalDate today = LocalDate.now();
-        List<Post> todayMajlis = majlisRepository.findByDate(today);
-        List<Post> upcomingMajlis = majlisRepository.findByDateAfter(today);
+        List<Post> todayMajlis = postRepository.findByDate(today);
+        List<Post> upcomingMajlis = postRepository.findByDateAfter(today);
         todayMajlis.addAll(upcomingMajlis);
         return todayMajlis;
     }
     public List<Post> findByUser(UUID user) {
-        return majlisRepository.findByUserId(user);
+        return postRepository.findByUserId(user);
     }
 
     public List<Post> getMajlisCreatedThisMonth() {
         LocalDate today = LocalDate.now();
         LocalDate startOfMonth = today.with(TemporalAdjusters.firstDayOfMonth());
         LocalDate endOfMonth = today.with(TemporalAdjusters.lastDayOfMonth());
-        return majlisRepository.findMajlisCreatedThisMonth(startOfMonth, endOfMonth);
+        return postRepository.findMajlisCreatedThisMonth(startOfMonth, endOfMonth);
     }
 
     public Post findTopByViewsCount() {
-        return majlisRepository.findTopByOrderByViewsCountDesc().orElse(null);
+        return postRepository.findTopByOrderByViewsCountDesc().orElse(null);
     }
     public List<Post> getMostPopularMajlis() {
-        return majlisRepository.findMostPopular();
+        return postRepository.findMostPopular();
     }
 
     public List<Post> findMajlisToday() {
         LocalDate today = LocalDate.now();
-        return majlisRepository.findByDate(today);
+        return postRepository.findByDate(today);
     }
 
     public List<Post> findUpcomingMajlis() {
         LocalDate today = LocalDate.now();
-        return majlisRepository.findByDateAfter(today);
+        return postRepository.findByDateAfter(today);
     }
 
     public List<Post> findArchivedMajlisWithVideos() {
         LocalDate today = LocalDate.now();
-        return majlisRepository.findArchivedWithVideos(today);
+        return postRepository.findArchivedWithVideos(today);
     }
     public Optional<Post> getMajlisById(UUID id) {
-        return majlisRepository.findById(id);
+        return postRepository.findById(id);
     }
 
 
     public void deleteMajlis(UUID id) {
-        majlisRepository.deleteById(id);
+        postRepository.deleteById(id);
     }
 
     public Post save(Post post){
-        return majlisRepository.save(post);
+        return postRepository.save(post);
     }
 
 }

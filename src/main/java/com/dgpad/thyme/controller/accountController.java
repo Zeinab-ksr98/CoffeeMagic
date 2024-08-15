@@ -37,6 +37,11 @@ public class accountController {
         model.addAttribute("post", postService.findMajlisTodayAndUpcoming());
         return "account/landing page";
     }
+    @GetMapping(value = "/test")
+    public String test(Model model) {
+        model.addAttribute("post", postService.findMajlisTodayAndUpcoming());
+        return "Visitor/test";
+    }
 
     @PostMapping("/forget_pass")
     public String forgetPassword(@RequestParam String resetpassword, @RequestParam String reusername, @RequestParam String reemail, RedirectAttributes redirectAttributes) {

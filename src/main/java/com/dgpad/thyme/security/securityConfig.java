@@ -4,7 +4,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -23,7 +22,7 @@ public class securityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
         return httpSecurity.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> {
-                    auth.requestMatchers("/users/**","/forget_pass","/forgetPage","/SignUp","/Main/**","/images/**","/css/**", "/js/**","/bundles/**","/verify").permitAll();
+                    auth.requestMatchers("/users/**","/forget_pass","/test","/forgetPage","/SignUp","/Main/**","/images/**","/css/**", "/js/**","/bundles/**","/verify").permitAll();
                     auth.anyRequest().authenticated();
                 })
                 .formLogin((form) ->{
@@ -36,8 +35,6 @@ public class securityConfig {
                 })
                 .build();
     }
-
-
     @Bean
     public UserDetailsService userDetailsService(){
         return new UserInfoDetailsService();

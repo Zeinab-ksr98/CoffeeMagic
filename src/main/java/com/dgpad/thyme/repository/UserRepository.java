@@ -4,7 +4,6 @@ import com.dgpad.thyme.model.User;
 import com.dgpad.thyme.model.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -12,10 +11,7 @@ import java.util.UUID;
 public interface UserRepository extends JpaRepository<User, UUID> {
     @Query(value = "select * from user where username = ?1", nativeQuery = true)
     Optional<User> findUserByUserName(String username);
-    @Query(value = "select * from user where phone = ?1", nativeQuery = true)
-    Optional<User> findUserByPhone(String phone);
     boolean existsByUsername(String username);
-    boolean existsByPhone(String Phone);
     List<User> findAllByRole(Role role);
 
     @Query(value = "select * from user where email = ?1", nativeQuery = true)
@@ -25,8 +21,6 @@ public interface UserRepository extends JpaRepository<User, UUID> {
 
     @Query(value = "select * from user where email = ?1 and username = ?2", nativeQuery = true)
     Optional<User> findUserByEmailAndName(String email,String username);
-    @Query(value = "select * from user where phone = ?1", nativeQuery = true)
-    Optional<User> findUserByNumber(String phone);
 
     boolean existsByEmail(String email);
 

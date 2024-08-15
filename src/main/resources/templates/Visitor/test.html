@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="en"  xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +7,8 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css" />
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
         body {
@@ -44,17 +45,27 @@
             border-radius: 50%;
             margin-bottom: 10px;
         }
-    </style>
+        </style>
 </head>
-
 <body>
-
+<header class="relative h-screen bg-cover bg-center">
+    <img th:src="@{/images/background.png}" alt="Background Image" class="absolute inset-0 w-full h-full object-cover">
+    <div class="absolute inset-0 bg-black opacity-50"></div>
+    <div class="relative z-10 flex items-center justify-center h-full text-white text-center">
+        <div>
+            <h1 class="text-4xl font-bold mb-4">In every coffee image, there's a story brewing.</h1>
+            <a th:href="@{/LogIn}" class="px-6 py-3 bg-gray-800 text-white rounded-full hover:bg-gray-700 text-decoration-none focus:outline-none">
+                تسجيل الدخول
+            </a>
+        </div>
+    </div>
+</header>
 <!-- Blog Section -->
 <section class="px-10 py-8">
     <h2 class="text-3xl font-semibold text-center mb-10">Our Blog</h2>
     <div class="flex space-x-8">
         <div class="card flex-1">
-            <div class="placeholder mb-4"></div>
+            <div class="placeholder mb-4"><img th:src="@{/images/Caramel%20Hazelnut%20Iced%20Coffee.jfif}"></div>
             <h3 class="text-xl font-semibold mb-4">How To Make A Great Coffee</h3>
             <p class="mb-6">Making a Cup of Coffee Doesn't Have to Be Complicated. Start by
                 Getting Your Hands on the Coffee Beans...</p>
@@ -68,7 +79,7 @@
             </div>
         </div>
         <div class="card flex-1">
-            <div class="placeholder mb-4"></div>
+            <div class="placeholder mb-4"><img th:src="@{/images/Caramel%20Hazelnut%20Iced%20Coffee.jfif}"></div>
             <h3 class="text-xl font-semibold mb-4">Why Does Caffeine Make Us Stay Awake?</h3>
             <p class="mb-6">Caffeine Works by Blocking Adenosine Receptors in the Brain. Here’s
                 How It Works...</p>
@@ -82,7 +93,7 @@
             </div>
         </div>
         <div class="card flex-1">
-            <div class="placeholder mb-4"></div>
+            <div class="placeholder mb-4"><img th:src="@{/images/Caramel%20Hazelnut%20Iced%20Coffee.jfif}"></div>
             <h3 class="text-xl font-semibold mb-4">Different Types Of Coffee</h3>
             <p class="mb-6">Coffee Is Enjoyed All Around the World. Explore the Various Types of
                 Coffee That You Can Enjoy...</p>
@@ -98,64 +109,80 @@
     </div>
 </section>
 
-<!-- Recommended Section -->
-<section class="px-10 py-8 bg-[#1c0c0c]">
-    <h2 class="text-3xl font-semibold text-center mb-10 text-yellow-300">Recommended</h2>
-    <div class="flex space-x-8 justify-center">
-        <div class="card flex-1">
-            <div class="placeholder mb-4"></div>
-            <p class="text-center mt-2">Arabica</p>
-            <p class="text-center text-yellow-500 mt-1">Dark Roast</p>
+<section>
+
+    <!--  gallary Section  -->
+    <div id="gallary" class="text-center bg-dark text-light has-height-md middle-items wow fadeIn">
+        <h2 class="section-title">OUR MENU</h2>
+    </div>
+    <div class="gallary row">
+        <div class="col-sm-6 col-lg-3 gallary-item wow fadeIn">
+            <img th:src="@{/images/Caramel%20Hazelnut%20Iced%20Coffee.jfif}"  class="gallary-img">
+            <a href="#" class="gallary-overlay">
+                <i class="gallary-icon ti-plus"></i>
+            </a>
         </div>
-        <div class="card flex-1">
-            <div class="placeholder mb-4"></div>
-            <p class="text-center mt-2">House Blend</p>
-            <p class="text-center text-yellow-500 mt-1">Dark Roast</p>
+        <div class="col-sm-6 col-lg-3 gallary-item wow fadeIn">
+            <img th:src="@{/images/coffe.jfif}"  class="gallary-img">
+            <a href="#" class="gallary-overlay">
+                <i class="gallary-icon ti-plus"></i>
+            </a>
         </div>
-        <div class="card flex-1">
-            <div class="placeholder mb-4"></div>
-            <p class="text-center mt-2">Robusta</p>
-            <p class="text-center text-yellow-500 mt-1">Dark Roast</p>
+        <div class="col-sm-6 col-lg-3 gallary-item wow fadeIn">
+            <img th:src="@{/images/dalgona.jfif}" class="gallary-img">
+            <a href="#" class="gallary-overlay">
+                <i class="gallary-icon ti-plus"></i>
+            </a>
+        </div>
+        <div class="col-sm-6 col-lg-3 gallary-item wow fadeIn">
+            <img th:src="@{/images/FINE%20DINING%20DESSERTS.jfif}" alt="template by DevCRID http://www.devcrud.com/" class="gallary-img">
+            <a href="#" class="gallary-overlay">
+                <i class="gallary-icon ti-plus"></i>
+            </a>
+        </div>
+        <div class="col-sm-6 col-lg-3 gallary-item wow fadeIn">
+            <img th:src="@{/images/Hazelnut%20Iced%20Coffee.jfif}" alt="template by DevCRID http://www.devcrud.com/" class="gallary-img">
+            <a href="#" class="gallary-overlay">
+                <i class="gallary-icon ti-plus"></i>
+            </a>
+        </div>
+        <div class="col-sm-6 col-lg-3 gallary-item wow fadeIn">
+            <img th:src="@{/images/Lotus%20Biscoff%20Freakshake%20-%20Chili%20to%20Choc.jfif}" alt="template by DevCRID http://www.devcrud.com/" class="gallary-img">
+            <a href="#" class="gallary-overlay">
+                <i class="gallary-icon ti-plus"></i>
+            </a>
         </div>
     </div>
 </section>
 
-<!-- Offer Section -->
-<section class="px-10 py-8">
-    <div class="card mx-auto max-w-4xl flex items-center space-x-8">
-        <div class="w-1/2">
-            <div class="placeholder"></div>
-        </div>
-        <div class="w-1/2">
-            <h2 class="text-3xl font-semibold mb-4">Offer</h2>
-            <p class="text-yellow-500 text-lg mb-6">Up To 50% Off</p>
-            <p class="mb-6">At Our Café, We Take Pride In Providing Our Customers With The Best
-                Coffee Around. Our Carefully-Selected Coffees Come From Some Of The Most Renowned Coffee-Growing Regions In The World...</p>
-            <a href="#" class="inline-block bg-yellow-500 text-black px-6 py-3 rounded-full">Shop Now</a>
-        </div>
-    </div>
-</section>
 
-<!-- Reservation Section -->
-<section class="px-10 py-8">
-    <h2 class="text-3xl font-semibold text-center mb-10">Reserve a Table</h2>
-    <div class="card mx-auto max-w-4xl flex items-center space-x-8">
-        <div class="w-1/2">
-            <div class="placeholder"></div>
+<div id="about" class="container-fluid wow fadeIn" data-wow-duration="1.5s">
+    <div class="row">
+        <div class="col-lg-6 p-0">
+            <img th:src="@{/images/Coffee.jfif}" alt="Coffee Image" class="w-100 h-100 object-cover">
         </div>
-        <div class="w-1/2">
-            <form class="space-y-4">
-                <input type="date" placeholder="Date" class="w-full p-3 bg-gray-100 rounded-lg">
-                <input type="time" placeholder="Time" class="w-full p-3 bg-gray-100 rounded-lg">
-                <input type="number" placeholder="Guest" class="w-full p-3 bg-gray-100 rounded-lg">
-                <input type="text" placeholder="Your Name" class="w-full p-3 bg-gray-100 rounded-lg">
-                <input type="tel" placeholder="Your Phone" class="w-full p-3 bg-gray-100 rounded-lg">
-                <input type="email" placeholder="Your Email" class="w-full p-3 bg-gray-100 rounded-lg">
-                <button class="w-full p-3 bg-yellow-500 rounded-lg text-black">Reserve</button>
-            </form>
+        <div class="col-lg-6">
+            <div class="row justify-content-center">
+                <div class="col-sm-8 py-5 my-5">
+                    <h2 class="mb-4">About Us</h2>
+                    <p>
+                        Welcome to CoffeeMagic, your ultimate online destination for all things coffee! We are a passionate community of coffee enthusiasts dedicated to sharing the magic and joy of coffee with people from all walks of life. Whether you're a seasoned barista, a homebrew hobbyist, or simply someone who loves a good cup of joe, CoffeeMagic has something special for you.
+
+                        Our mission is to create a vibrant hub where coffee lovers can come together to explore, learn, and enjoy the rich world of coffee. We offer an extensive collection of recipes that cater to every taste, from classic brews to innovative concoctions. Our engaging blog posts cover a wide range of topics, including brewing techniques, coffee culture, and the latest trends in the coffee world.
+
+                        At CoffeeMagic, we believe that coffee is more than just a beverage; it's an experience, a ritual, and a way to connect with others. We are committed to providing high-quality content that inspires and educates our community, helping you discover new ways to enjoy your favorite drink.
+
+                        Join us on this exciting journey as we delve into the enchanting world of coffee. Share your own coffee stories, recipes, and tips with our community, and let's celebrate the art of coffee together.
+
+                        Thank you for being a part of CoffeeMagic. Here's to many delicious cups of coffee and countless moments of joy!
+
+
+                    </p>
+                     </div>
+            </div>
         </div>
     </div>
-</section>
+</div>
 
 </body>
 

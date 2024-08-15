@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface MajlisRepository extends JpaRepository<Post, UUID> {
+public interface PostRepository extends JpaRepository<Post, UUID> {
     List<Post> findByDate(LocalDate date);
     List<Post> findByDateAfter(LocalDate date);
 
@@ -41,7 +41,7 @@ public interface MajlisRepository extends JpaRepository<Post, UUID> {
 //import java.util.Optional;
 //import java.util.UUID;
 //
-//public interface MajlisRepository extends JpaRepository<Post, UUID> {
+//public interface PostRepository extends JpaRepository<Post, UUID> {
 //    List<Post> findByDate(LocalDate date);
 //    List<Post> findByDateAfter(LocalDate date);
 //    @Query("SELECT m FROM Post m ORDER BY m.viewsCount DESC")
