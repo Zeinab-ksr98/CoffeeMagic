@@ -27,17 +27,14 @@ public class Post {
     @NotBlank(message = "Description cannot be blank")
     @Column(nullable = false)
     private String description;
-
-    @NotBlank(message = "Location cannot be blank")
     @Column(nullable = false)
-    private String location;
-
+    private String ingredients;
     @Column(nullable = false)
-    private LocalDate date;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private String Instructions;
+    @Column(nullable = false)
+    private String Servings;
+    @Column(nullable = false)
+    private LocalDate createdDate;
     public Boolean Public;
     @OneToOne
     @JoinColumn(name = "main_image_id")

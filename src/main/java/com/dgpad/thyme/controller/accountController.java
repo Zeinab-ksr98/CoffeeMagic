@@ -34,15 +34,9 @@ public class accountController {
     private FileUploadService fileUploadService;
     @GetMapping(value = "/Main")
     public String home(Model model) {
-        model.addAttribute("post", postService.findMajlisTodayAndUpcoming());
+        model.addAttribute("post", postService.getAllPosts());
         return "account/landing page";
     }
-    @GetMapping(value = "/test")
-    public String test(Model model) {
-        model.addAttribute("post", postService.findMajlisTodayAndUpcoming());
-        return "Visitor/test";
-    }
-
     @PostMapping("/forget_pass")
     public String forgetPassword(@RequestParam String resetpassword, @RequestParam String reusername, @RequestParam String reemail, RedirectAttributes redirectAttributes) {
         User user = userService.findUserByEmailAndUserName(reusername, reemail).orElse(null);
@@ -55,92 +49,46 @@ public class accountController {
             return "redirect:/forgetPage";
         }
     }
-    @GetMapping(value = "/home")
-    public String displayHome(Model model) {
-        model.addAttribute("user", userService.getCurrentUser());
-        List<Post> todayMajlis = postService.findMajlisToday();
-        model.addAttribute("todayMajlis", todayMajlis);
-        model.addAttribute("topmonthlyvedios", mediaService.findVideosCreatedThisMonth());
-        model.addAttribute("topmonthlyMusics", mediaService.findVideosCreatedThisMonth());
-        model.addAttribute("topVedio", mediaService.findTopByViewsCount());
-        model.addAttribute("newReleases", mediaService.findThisWeekVideos());
-        return "Visitor/home";
 
-    }
 
-    @GetMapping(value = "/display")
-    public String display(Model model) {
-        model.addAttribute("user", userService.getCurrentUser());
-        return "Visitor/display";
-    }
-
-    @PostMapping("/uploadMedia")
-    public String uploadMedia(@RequestParam("file") MultipartFile file,
-                              @RequestParam("title") String title,
-                              @RequestParam("description") String description) throws IOException {
-        Media media = fileUploadService.uploadMedia(file, title, description);
-        User user = userService.getCurrentUser();
-//        user.getVideoList().add(media);
-        userService.save(user);
-        return "redirect:/manageChannel";
-    }
 //for all users
-    @GetMapping(value = "/majalis")
-    public String majalis(Model model) {
+    @GetMapping(value = "/managePosts")
+    public String managePosts(Model model) {
         model.addAttribute("user", userService.getCurrentUser());
-        return "Visitor/majalis";
+        return "Admin/managePosts";
     }
     @PostMapping("/uploadPostMedia")
     @PreAuthorize("hasAnyAuthority('Admin')")
-    public String uploadMajlisMedia(@RequestParam("file") MultipartFile file,
+    public String uploadPostMedia(@RequestParam("file") MultipartFile file,
                                     @RequestParam("title") String title,
                                     @RequestParam("description") String description,
-                                    @RequestParam("MajlisId") UUID majlisId) throws Exception {
+                                    @RequestParam("PostId") UUID postId) throws Exception {
         Media media = fileUploadService.uploadMedia(file, title, description);
-        Post post = postService.getMajlisById(majlisId).orElse(null);
+        Post post = postService.getPostById(postId);
         if (post != null) {
             post.getPostMedias().add(media);
             postService.save(post);
         }
-        return "redirect:/managemajlis";
+        return "redirect:/managePosts";
     }
 
-    @GetMapping(value = "/Majalis")
-    public String displayMyMajalis(Model model) {
-        model.addAttribute("user", userService.getCurrentUser());
-//        List<Post> myMajlis = userService.getCurrentUser().getMajalisList();
-        List<Post> myMajlis = postService.getAllMajlis();
-
-        List<Post> mostPopularMajlis = postService.getMostPopularMajlis();
-        List<Post> todayMajlis = postService.findMajlisToday();
-        List<Post> upcomingMajlis = postService.findUpcomingMajlis();
-        List<Post> archivedPostWithVideos = postService.findArchivedMajlisWithVideos();
-        // Add data to model
-        model.addAttribute("myMajalis", myMajlis);
-        model.addAttribute("myMajalissize", myMajlis.size());
-        model.addAttribute("mostPopularMajlis", mostPopularMajlis);
-        model.addAttribute("todayMajlis", todayMajlis);
-        model.addAttribute("upcomingMajlis", upcomingMajlis);
-        model.addAttribute("archivedMajlisWithVideos", archivedPostWithVideos);
-        model.addAttribute("organizers", userService.findAllByRole(Role.Majlis_ORGANIZER));
-
-        return "Visitor/majalis";
-    }
-    @PostMapping("/createMajlis")
-    @PreAuthorize("hasAnyAuthority('Majlis_ORGANIZER')")
+    @PostMapping("/createPost")
+    @PreAuthorize("hasAnyAuthority('Admin')")
     public String createMajlis(@RequestParam("title") String title, @RequestParam("description") String description,
-                               @RequestParam("location") String location, @RequestParam("date")LocalDate date,@RequestParam("file") MultipartFile file) throws Exception {
-        Post post = postService.createMajlis(title,description,location,date);
-        uploadMajlisMedia(file,title,description, post.getId());
-        userService.getCurrentUser().getMajalisList().add(post);
-        return "redirect:/Majalis";
+                               @RequestParam("servings") String servings,@RequestParam("instructions") String instructions,@RequestParam("ingredients") String ingredients,@RequestParam("media") List<MultipartFile> media,@RequestParam("postImage") MultipartFile postImage) throws Exception {
+        Post post = postService.createPost(title,description,ingredients,servings,instructions);
+        for (int i = 0; i < media.size(); i++) {
+            uploadPostMedia(media.get(i),title,description, post.getId());
+        }
+        uploadPostMedia(postImage,title,description,post.getId());
+        return "redirect:/managePosts";
     }
 
-    @GetMapping("/viewmajlis/{id}")
-    public String viewMajlis(Model model,@PathVariable UUID id) {
-        model.addAttribute("majlis", postService.getMajlisById(id));
+    @GetMapping("/viewPost/{id}")
+    public String viewPost(Model model,@PathVariable UUID id) {
+        model.addAttribute("post", postService.getPostById(id));
         model.addAttribute("user", userService.getCurrentUser());
-        return "Visitor/display";
+        return "account/displayPost";
     }
 
     @GetMapping("/manage-users")
@@ -154,9 +102,8 @@ public class accountController {
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     public String createAdmin(@RequestParam("username") String userName,
                               @RequestParam("email") String email,
-                              @RequestParam("phone") String phone,
-                              @RequestParam("role") Role role,Model model) throws IOException {
-        User user = new User(userName, email, "123", phone,role);
+                              @RequestParam("phone") String phone,Model model) throws IOException {
+        User user = new User(userName, email, "123", phone,Role.ADMIN);
         userService.createUser(user);
         return "redirect:/manage-users";
     }

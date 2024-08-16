@@ -46,10 +46,6 @@ public class User {
 
     public boolean deleted;
     private boolean enabled;
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-    private List<Post> majalisList = new ArrayList<>();
-
     public User(String username, String email, String password, String phone, Role role) {
         this.username = username;
         this.email = email;
