@@ -31,70 +31,21 @@
         .card:hover {
             transform: translateY(-5px);
         }
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Adjusted for responsiveness */
+            gap: 5px; /* Adjust the gap between images */
 
-        .placeholder {
-            height: 150px;
-            width: 100%;
-            background-color: #e5e7eb;
-            border-radius: 10px;
         }
 
-        .icon {
-            height: 40px;
-            width: 40px;
-            background-color: #e5e7eb;
-            border-radius: 50%;
-            margin-bottom: 10px;
-        }
-        .gallary {
-            margin: 0;
-        }
-
-        .gallary .gallary-item {
-            padding: 0;
-            border: 1px solid #343a40;
-        }
-
-        .gallary .gallary-item .gallary-img {
-            width: 100%;
-        }
-
-        .gallary .gallary-item .gallary-overlay {
-            background: rgba(52, 58, 64, 0.7);
-            position: absolute;
-            left: 0;
-            top: 0;
+        .gallery img {
             width: 100%;
             height: 100%;
-            display: -webkit-flex;
-            display: -ms-flex;
-            display: -webkit-box;
-            display: -ms-flexbox;
-            display: flex;
-            -webkit-box-align: center;
-            -webkit-align-items: center;
-            -ms-flex-align: center;
-            align-items: center;
-            -webkit-box-pack: center;
-            -webkit-justify-content: center;
-            -ms-flex-pack: center;
-            justify-content: center;
-            visibility: hidden;
-            opacity: 0;
-            -webkit-transition: all 0.2s linear 0s;
-            transition: all 0.2s linear 0s;
+            object-fit: cover;
+            position: relative; /* Adjusted to maintain image layout */
+            z-index: -1; /* Adjusted to keep images behind the content */
         }
 
-        .gallary .gallary-item .gallary-overlay .gallary-icon {
-            font-size: 2.5rem;
-            font-weight: bold;
-            color: #fff;
-        }
-
-        .gallary .gallary-item:hover .gallary-overlay {
-            visibility: visible;
-            opacity: 1;
-        }
     </style>
 </head>
 <body >
@@ -104,112 +55,30 @@
     <div class="relative z-10 flex items-center justify-center h-full text-white text-center">
         <div>
             <h1 class="text-4xl font-bold mb-5">In every coffee image, there's a story brewing.</h1>
-            <a th:href="@{/LogIn}" class="px-6 py-3 text-white rounded-full hover:bg-gray-700 text-decoration-none focus:outline-none" style="background-color: #8e4924;">
+            <a th:href="@{/admin/LogIn}" class="px-6 py-3 text-white rounded-full hover:bg-gray-700 text-decoration-none focus:outline-none" style="background-color: #8e4924;">
                 Log In
             </a>
         </div>
     </div>
 </header>
+<!-- Recipes Section -->
 <section>
-    <!-- Gallery Section -->
-    <div class="container py-5">
-        <div class="row gallery">
-            <div class="col-sm-6 col-lg-3 gallery-item wow fadeIn" th:each="image : ${post}">
-                <img th:src="@{${image.getPostImage().fileName}}" class="gallery-img h-50" >
-                <a href="#" class="gallery-overlay">
-                    <i class="gallery-icon ti-plus"></i>
-                </a>
-            </div>
+    <div class="gallery">
+        <div th:each="recipe : ${posts}">
+        <img th:src="${recipe.getPostImage().fileName}" alt="Background Image" />
         </div>
     </div>
 </section>
-<!--<section>-->
-
-<!--    &lt;!&ndash;  gallary Section  &ndash;&gt;-->
-<!--    <div class="gallary row">-->
-
-<!--        <div class="col-sm-6 col-lg-3 gallary-item wow fadeIn">-->
-<!--            <img th:src="@{/images/coffe.jfif}"  class="gallary-img">-->
-<!--            <a href="#" class="gallary-overlay">-->
-<!--                <i class="gallary-icon ti-plus"></i>-->
-<!--            </a>-->
-<!--        </div>-->
-<!--        <div class="col-sm-6 col-lg-3 gallary-item wow fadeIn">-->
-<!--            <img th:src="@{/images/dalgona.jfif}" class="gallary-img">-->
-<!--            <a href="#" class="gallary-overlay">-->
-<!--                <i class="gallary-icon ti-plus"></i>-->
-<!--            </a>-->
-<!--        </div>-->
-<!--        <div class="col-sm-6 col-lg-3 gallary-item wow fadeIn">-->
-<!--            <img th:src="@{/images/Caramel%20Hazelnut%20Iced%20Coffee.jfif}"  class="gallary-img">-->
-<!--            <a href="#" class="gallary-overlay">-->
-<!--                <i class="gallary-icon ti-plus"></i>-->
-<!--            </a>-->
-<!--        </div>-->
-<!--        <div class="col-sm-6 col-lg-3 gallary-item wow fadeIn">-->
-<!--            <img th:src="@{/images/FINE%20DINING%20DESSERTS.jfif}" alt="template by DevCRID http://www.devcrud.com/" class="gallary-img">-->
-<!--            <a href="#" class="gallary-overlay">-->
-<!--                <i class="gallary-icon ti-plus"></i>-->
-<!--            </a>-->
-<!--        </div>-->
-<!--        <div class="col-sm-6 col-lg-3 gallary-item wow fadeIn">-->
-<!--            <img th:src="@{/images/Hazelnut%20Iced%20Coffee.jfif}" alt="template by DevCRID http://www.devcrud.com/" class="gallary-img">-->
-<!--            <a href="#" class="gallary-overlay">-->
-<!--                <i class="gallary-icon ti-plus"></i>-->
-<!--            </a>-->
-<!--        </div>-->
-<!--        <div class="col-sm-6 col-lg-3 gallary-item wow fadeIn">-->
-<!--            <img th:src="@{/images/Lotus%20Biscoff%20Freakshake%20-%20Chili%20to%20Choc.jfif}" alt="template by DevCRID http://www.devcrud.com/" class="gallary-img">-->
-<!--            <a href="#" class="gallary-overlay">-->
-<!--                <i class="gallary-icon ti-plus"></i>-->
-<!--            </a>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</section>-->
-
 <!-- Blog Section -->
 <section class="px-10 py-8">
     <h2 class="text-3xl font-semibold text-center mb-10">Our Blog</h2>
-    <div class="flex space-x-8">
+    <div class="flex space-x-8" th:each="blog : ${blogs}">
         <div class="card flex-1">
-            <div class="card card-header">
-                <img th:src="@{/images/Caramel%20Hazelnut%20Iced%20Coffee.jfif}" >
+            <div class="card-header">
+                <img th:src="${blog.getPostImage().fileName}" class="w-full h-48 object-cover">
             </div>
-            <h3 class="text-xl font-semibold mb-4">How To Make A Great Coffee</h3>
-            <p class="mb-6">Making a Cup of Coffee Doesn't Have to Be Complicated. Start by
-                Getting Your Hands on the Coffee Beans...</p>
-            <div class="flex justify-between items-center">
-                <div class="flex space-x-2">
-                    <div class="icon"></div>
-                    <div class="icon"></div>
-                    <div class="icon"></div>
-                </div>
-                <a href="#" class="text-yellow-500">More</a>
-            </div>
-        </div>
-        <div class="card flex-1">
-            <div class="card card-header">
-                <img th:src="@{/images/Caramel%20Hazelnut%20Iced%20Coffee.jfif}">
-            </div>
-            <h3 class="text-xl font-semibold mb-4">Why Does Caffeine Make Us Stay Awake?</h3>
-            <p class="mb-6">Caffeine Works by Blocking Adenosine Receptors in the Brain. Here’s
-                How It Works...</p>
-            <div class="flex justify-between items-center">
-                <div class="flex space-x-2">
-                    <div class="icon"></div>
-                    <div class="icon"></div>
-                    <div class="icon"></div>
-                </div>
-                <a href="#" class="text-yellow-500">More</a>
-            </div>
-        </div>
-        <div class="card flex-1">
-            <div class="card card-header">
-                <img th:src="@{/images/Caramel%20Hazelnut%20Iced%20Coffee.jfif}">
-            </div>
-            <h3 class="text-xl font-semibold mb-4">Different Types Of Coffee</h3>
-            <p class="mb-6">Coffee Is Enjoyed All Around the World. Explore the Various Types of
-                Coffee That You Can Enjoy...</p>
+            <h3 class="text-xl font-semibold mb-4" th:text="${blog.title}">How To Make A Great Coffee</h3>
+            <p class="mb-6" th:text="${blog.description}">Making a Cup of Coffee Doesn't Have to Be Complicated. Start by Getting Your Hands on the Coffee Beans...</p>
             <div class="flex justify-between items-center">
                 <div class="flex space-x-2">
                     <div class="icon"></div>
@@ -221,6 +90,75 @@
         </div>
     </div>
 </section>
+<section>
+
+<!-- Carousel wrapper -->
+<!--<div id="carouselMultiItemExample" data-mdb-carousel-init class="carousel slide carousel-dark text-center" data-mdb-ride="carousel">-->
+<!--    &lt;!&ndash; Controls &ndash;&gt;-->
+<!--    <div class="d-flex justify-content-center mb-4">-->
+<!--        <button data-mdb-button-init class="carousel-control-prev position-relative" type="button" data-mdb-target="#carouselMultiItemExample" data-mdb-slide="prev">-->
+<!--            <span class="carousel-control-prev-icon" aria-hidden="true"></span>-->
+<!--            <span class="visually-hidden">Previous</span>-->
+<!--        </button>-->
+<!--        <button data-mdb-button-init class="carousel-control-next position-relative" type="button" data-mdb-target="#carouselMultiItemExample" data-mdb-slide="next">-->
+<!--            <span class="carousel-control-next-icon" aria-hidden="true"></span>-->
+<!--            <span class="visually-hidden">Next</span>-->
+<!--        </button>-->
+<!--    </div>-->
+<!-- Carousel wrapper -->
+<!--<section class="px-10 py-8">-->
+<!--    <h2 class="text-3xl font-semibold text-center mb-10">Our Blog</h2>-->
+<!--    <div class="flex space-x-8">-->
+<!--        <div class="card flex-1">-->
+<!--            <div class="card card-header">-->
+<!--                <img th:src="@{/images/Caramel%20Hazelnut%20Iced%20Coffee.jfif}" >-->
+<!--            </div>-->
+<!--            <h3 class="text-xl font-semibold mb-4">How To Make A Great Coffee</h3>-->
+<!--            <p class="mb-6">Making a Cup of Coffee Doesn't Have to Be Complicated. Start by-->
+<!--                Getting Your Hands on the Coffee Beans...</p>-->
+<!--            <div class="flex justify-between items-center">-->
+<!--                <div class="flex space-x-2">-->
+<!--                    <div class="icon"></div>-->
+<!--                    <div class="icon"></div>-->
+<!--                    <div class="icon"></div>-->
+<!--                </div>-->
+<!--                <a href="#" class="text-yellow-500">More</a>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div class="card flex-1">-->
+<!--            <div class="card card-header">-->
+<!--                <img th:src="@{/images/Caramel%20Hazelnut%20Iced%20Coffee.jfif}">-->
+<!--            </div>-->
+<!--            <h3 class="text-xl font-semibold mb-4">Why Does Caffeine Make Us Stay Awake?</h3>-->
+<!--            <p class="mb-6">Caffeine Works by Blocking Adenosine Receptors in the Brain. Here’s-->
+<!--                How It Works...</p>-->
+<!--            <div class="flex justify-between items-center">-->
+<!--                <div class="flex space-x-2">-->
+<!--                    <div class="icon"></div>-->
+<!--                    <div class="icon"></div>-->
+<!--                    <div class="icon"></div>-->
+<!--                </div>-->
+<!--                <a href="#" class="text-yellow-500">More</a>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div class="card flex-1">-->
+<!--            <div class="card card-header">-->
+<!--                <img th:src="@{/images/Caramel%20Hazelnut%20Iced%20Coffee.jfif}">-->
+<!--            </div>-->
+<!--            <h3 class="text-xl font-semibold mb-4">Different Types Of Coffee</h3>-->
+<!--            <p class="mb-6">Coffee Is Enjoyed All Around the World. Explore the Various Types of-->
+<!--                Coffee That You Can Enjoy...</p>-->
+<!--            <div class="flex justify-between items-center">-->
+<!--                <div class="flex space-x-2">-->
+<!--                    <div class="icon"></div>-->
+<!--                    <div class="icon"></div>-->
+<!--                    <div class="icon"></div>-->
+<!--                </div>-->
+<!--                <a href="#" class="text-yellow-500">More</a>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</section>-->
 
 
 <section class="h-screen">
@@ -250,5 +188,4 @@
     </div>
 </section>
 </body>
-
 </html>

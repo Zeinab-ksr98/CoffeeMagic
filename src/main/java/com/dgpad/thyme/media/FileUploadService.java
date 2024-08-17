@@ -30,21 +30,14 @@ public class FileUploadService {
     @Autowired
     private UserService userService;
 
-    public Media uploadMedia(MultipartFile file, String title, String description) throws IOException {
+    public Media uploadMedia(MultipartFile file) throws IOException {
         // Upload file and get its name
         String fileName = uploadFile(file);
-
         // Generate the URL for the uploaded file
         String fileUrl = generateFileUrl(fileName);
-
-        // Create and populate the Media object
         Media media = new Media();
-        media.setFileName(fileUrl); // Set the full URL
-        media.setFileType(file.getContentType());
+        media.setFileName(fileUrl);
         media.setOwner(userService.getCurrentUser());
-        media.setTitle(title);
-        media.setDescription(description);
-        media.setCreatedDate(LocalDate.now());
         return mediaRepository.save(media);
     }
 

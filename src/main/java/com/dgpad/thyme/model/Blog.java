@@ -1,13 +1,13 @@
 package com.dgpad.thyme.model;
 
-import com.dgpad.thyme.model.Media;
-import com.dgpad.thyme.model.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -16,7 +16,7 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Post {
+public class Blog {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
@@ -26,22 +26,16 @@ public class Post {
     private String title;
 
     @NotBlank(message = "Description cannot be blank")
-    @Column(nullable = false, columnDefinition = "TEXT")
-    private String description;
-    @Column(nullable = false, columnDefinition = "TEXT") // Ensuring enough length for instructions
-    private String ingredients;
-    @Column(nullable = false, columnDefinition = "TEXT")
-    private String Instructions;
     @Column(nullable = false)
-    private int Servings;
+    private String description;
     @Column(nullable = false)
     private LocalDate createdDate;
     public Boolean Public;
     @OneToOne
     @JoinColumn(name = "main_image_id")
-    private Media PostImage; // One main image
-    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
-    public List<Media> postMedias= new ArrayList<>();;
+    private Media BlogImage; // One main image
+    @OneToMany(mappedBy = "blog", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Media> blogMedias;
 
 
     @Column(nullable = false)

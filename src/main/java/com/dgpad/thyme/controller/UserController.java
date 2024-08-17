@@ -7,26 +7,26 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.util.UUID;
 
 
 @Controller
-@RequestMapping("/users")
+@RequestMapping("/admin")
 public class UserController {
 
     @Autowired
     private UserService userService;
 
-    @GetMapping(value = "/SignUp")
-    public String SignIn(Model model) {
-        model.addAttribute("newuser", new User());
-        return "account/signup";
-    }
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @GetMapping(value = "/LogIn")
     public String Login(Model model) {
         return "account/login";
@@ -35,7 +35,18 @@ public class UserController {
     public String forgetPage() {
         return "account/forgetPass";
     }
-
+    @PostMapping("/forget_pass")
+    public String forgetPassword(@RequestParam String resetpassword, @RequestParam String reusername, @RequestParam String reemail, RedirectAttributes redirectAttributes) {
+        User user = userService.findUserByEmailAndUserName(reusername, reemail).orElse(null);
+        if (user != null) {
+            user.setPassword(passwordEncoder.encode(resetpassword));
+            userService.save(user);
+            return "redirect:/LogIn";
+        } else {
+            redirectAttributes.addAttribute("error", "true");
+            return "redirect:/forgetPage";
+        }
+    }
     @GetMapping(value = "/create-initial-admin")
     public String createInitialAdmin(){
         System.out.println("hi");
@@ -48,6 +59,7 @@ public class UserController {
             return e.getMessage();
         }
     }
+
     @GetMapping(value = "/",  produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     public ResponseEntity<?> getUsers(){

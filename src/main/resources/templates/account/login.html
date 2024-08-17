@@ -1,15 +1,14 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تسجيل دخول</title>
+    <title>Login</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/css/style.css" />
 
     <style>
-
         .background-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Adjusted for responsiveness */
@@ -42,46 +41,23 @@
 
 <body class="bg-gray-100 flex items-center justify-center min-h-screen">
 <div class="background-grid bg-black">
-    <img th:src="@{/images/photo_5794282552050172664_y.jpg}" alt="Background Image" />
-    <img th:src="@{/images/photo_5794282552050172664_y.jpg}" alt="Background Image" />
-    <img th:src="@{/images/photo_5794282552050172664_y.jpg}" alt="Background Image" />
-    <img th:src="@{/images/photo_5794282552050172664_y.jpg}" alt="Background Image" />
-    <img th:src="@{/images/photo_5794282552050172664_y.jpg}" alt="Background Image" />
-    <img th:src="@{/images/photo_5794282552050172664_y.jpg}" alt="Background Image" />
-    <img th:src="@{/images/photo_5794282552050172664_y.jpg}" alt="Background Image" />
-    <img th:src="@{/images/photo_5794282552050172664_y.jpg}" alt="Background Image" />
-    <img th:src="@{/images/photo_5794282552050172664_y.jpg}" alt="Background Image" />
-    <img th:src="@{/images/photo_5794282552050172664_y.jpg}" alt="Background Image" />
-    <img th:src="@{/images/photo_5794282552050172664_y.jpg}" alt="Background Image" />
-    <img th:src="@{/images/photo_5794282552050172664_y.jpg}" alt="Background Image" />
-    <img th:src="@{/images/photo_5794282552050172664_y.jpg}" alt="Background Image" />
-    <img th:src="@{/images/photo_5794282552050172664_y.jpg}" alt="Background Image" />
-    <img th:src="@{/images/photo_5794282552050172664_y.jpg}" alt="Background Image" />
-    <img th:src="@{/images/photo_5794282552050172664_y.jpg}" alt="Background Image" />
-    <img th:src="@{/images/photo_5794282552050172664_y.jpg}" alt="Background Image" />
-    <img th:src="@{/images/photo_5794282552050172664_y.jpg}" alt="Background Image" />
-    <img th:src="@{/images/photo_5794282552050172664_y.jpg}" alt="Background Image" />
-    <img th:src="@{/images/photo_5794282552050172664_y.jpg}" alt="Background Image" />
-    <img th:src="@{/images/photo_5794282552050172664_y.jpg}" alt="Background Image" />
-    <img th:src="@{/images/photo_5794282552050172664_y.jpg}" alt="Background Image" />
-    <img th:src="@{/images/photo_5794282552050172664_y.jpg}" alt="Background Image" />
-    <img th:src="@{/images/photo_5794282552050172664_y.jpg}" alt="Background Image" />
-    <img th:src="@{/images/photo_5794282552050172664_y.jpg}" alt="Background Image" />
-    <img th:src="@{/images/photo_5794282552050172664_y.jpg}" alt="Background Image" />
-    <img th:src="@{/images/photo_5794282552050172664_y.jpg}" alt="Background Image" />
-    <img th:src="@{/images/photo_5794282552050172664_y.jpg}" alt="Background Image" />
-    <img th:src="@{/images/photo_5794282552050172664_y.jpg}" alt="Background Image" />
-    <img th:src="@{/images/photo_5794282552050172664_y.jpg}" alt="Background Image" />
-    <img th:src="@{/images/photo_5794282552050172664_y.jpg}" alt="Background Image" />
-    <img th:src="@{/images/photo_5794282552050172664_y.jpg}" alt="Background Image" />
-    <img th:src="@{/images/photo_5794282552050172664_y.jpg}" alt="Background Image" />
-    <img th:src="@{/images/photo_5794282552050172664_y.jpg}" alt="Background Image" />
-    <img th:src="@{/images/photo_5794282552050172664_y.jpg}" alt="Background Image" />
-    <img th:src="@{/images/photo_5794282552050172664_y.jpg}" alt="Background Image" />
-</div>
+    <img th:src="@{/images/coffe.jfif}" alt="Background Image" />
+    <img th:src="@{/images/Coffee.jfif}" alt="Background Image" />
+    <img th:src="@{/images/Caramel%20Hazelnut%20Iced%20Coffee.jfif}" alt="Background Image" />
+    <img th:src="@{/images/dalgona.jfif}" alt="Background Image" />
+    <img th:src="@{/images/FINE%20DINING%20DESSERTS.jfif}" alt="Background Image" />
+    <img th:src="@{/images/Hazelnut%20Iced%20Coffee.jfif}" alt="Background Image" />
+    <img th:src="@{/images/Lotus%20Biscoff%20Freakshake%20-%20Chili%20to%20Choc.jfif}" alt="Background Image" />
+
+    <img th:src="@{/images/coffe.jfif}" alt="Background Image" />
+    <img th:src="@{/images/Coffee.jfif}" alt="Background Image" />
+    <img th:src="@{/images/Caramel%20Hazelnut%20Iced%20Coffee.jfif}" alt="Background Image" />
+    <img th:src="@{/images/dalgona.jfif}" alt="Background Image" />
+    <img th:src="@{/images/FINE%20DINING%20DESSERTS.jfif}" alt="Background Image" />
+    </div>
 
 <div class="overlay bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-    <h2 class="text-2xl font-bold mb-6 text-gray-800">مرحبا بعودتك</h2>
+    <h2 class="text-2xl font-bold mb-6 text-gray-800">Welcome Back</h2>
     <form th:action="@{/login}" method="post">
         <div th:if="${param.error}" class="alert alert-error">
             Invalid username and password.
@@ -90,24 +66,21 @@
             You have been logged out.
         </div>
         <div class="mb-4">
-            <label for="username" class="block text-gray-700 font-medium mb-2">اسم المستخدم</label>
+            <label for="username" class="block text-gray-700 font-medium mb-2">Username</label>
             <input type="text" id="username" name="username" class="input w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
         </div>
         <div class="mb-4">
-            <label for="password" class="label block text-gray-700 font-medium mb-2">كلمة المرور</label>
+            <label for="password" class="label block text-gray-700 font-medium mb-2">Password</label>
             <input type="password" id="password" name="password" class="input w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
         </div>
         <div class="flex items-center justify-between">
             <button type="submit" class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-                 التسجيل الدخول
+                Login
             </button>
         </div>
-        <p class="text-center text-gray-600 mt-4"> <a th:href="@{/forgetPage}" class="text-blue-500 hover:underline">نسيت كلمة المرور</a></p>
-
+        <p class="text-center text-gray-600 mt-4"><a th:href="@{/admin/forgetPage}" class="text-blue-500 hover:underline">Forgot Password</a></p>
     </form>
-    <p class="text-center text-gray-600 mt-4"> <a th:href="@{/SignUp}" class="text-blue-500 hover:underline">انشاء حساب</a></p>
 </div>
-
 </body>
 
 </html>

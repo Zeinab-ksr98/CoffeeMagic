@@ -1,6 +1,5 @@
 package com.dgpad.thyme.controller;
 import com.dgpad.thyme.media.FileUploadService;
-import com.dgpad.thyme.media.MediaService;
 import com.dgpad.thyme.model.User;
 import com.dgpad.thyme.model.Role;
 import com.dgpad.thyme.model.Post;
@@ -8,15 +7,12 @@ import com.dgpad.thyme.model.Media;
 import com.dgpad.thyme.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -24,64 +20,65 @@ import java.util.UUID;
 public class accountController {
     @Autowired
     private UserService userService;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-    @Autowired
-    private MediaService mediaService;
+
     @Autowired
     private PostService postService;
     @Autowired
+    private BlogService blogService;
+    @Autowired
     private FileUploadService fileUploadService;
     @GetMapping(value = "/Main")
-    public String home(Model model) {
-        model.addAttribute("post", postService.getAllPosts());
+    public String LandingPage(Model model) {
+        model.addAttribute("posts", postService.getAllPosts());
+        model.addAttribute("blogs", blogService.getAllBlogs());
         return "account/landing page";
     }
-    @PostMapping("/forget_pass")
-    public String forgetPassword(@RequestParam String resetpassword, @RequestParam String reusername, @RequestParam String reemail, RedirectAttributes redirectAttributes) {
-        User user = userService.findUserByEmailAndUserName(reusername, reemail).orElse(null);
-        if (user != null) {
-            user.setPassword(passwordEncoder.encode(resetpassword));
-            userService.save(user);
-            return "redirect:/SignIn";
-        } else {
-            redirectAttributes.addAttribute("error", "true");
-            return "redirect:/forgetPage";
-        }
+    @GetMapping(value = "/home")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    public String home(Model model) {
+        model.addAttribute("posts", postService.getAllPosts());
+        model.addAttribute("blogs", blogService.getAllBlogs());
+        return "Admin/Dashboard";
     }
 
 
-//for all users
+    @GetMapping(value = "/test2")
+    public String test2(Model model) {
+        return "account/display1";
+    }
+
+
+    //for all users
     @GetMapping(value = "/managePosts")
     public String managePosts(Model model) {
         model.addAttribute("user", userService.getCurrentUser());
         return "Admin/managePosts";
     }
     @PostMapping("/uploadPostMedia")
-    @PreAuthorize("hasAnyAuthority('Admin')")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     public String uploadPostMedia(@RequestParam("file") MultipartFile file,
                                     @RequestParam("title") String title,
                                     @RequestParam("description") String description,
                                     @RequestParam("PostId") UUID postId) throws Exception {
-        Media media = fileUploadService.uploadMedia(file, title, description);
+        Media media = fileUploadService.uploadMedia(file);
         Post post = postService.getPostById(postId);
         if (post != null) {
-            post.getPostMedias().add(media);
+            post.postMedias.add(media);
             postService.save(post);
         }
         return "redirect:/managePosts";
     }
 
     @PostMapping("/createPost")
-    @PreAuthorize("hasAnyAuthority('Admin')")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     public String createMajlis(@RequestParam("title") String title, @RequestParam("description") String description,
-                               @RequestParam("servings") String servings,@RequestParam("instructions") String instructions,@RequestParam("ingredients") String ingredients,@RequestParam("media") List<MultipartFile> media,@RequestParam("postImage") MultipartFile postImage) throws Exception {
+                               @RequestParam("servings") int servings,@RequestParam("instructions") String instructions,@RequestParam("ingredients") String ingredients,@RequestParam("media") List<MultipartFile> media,@RequestParam("postImage") MultipartFile postImage) throws Exception {
         Post post = postService.createPost(title,description,ingredients,servings,instructions);
         for (int i = 0; i < media.size(); i++) {
-            uploadPostMedia(media.get(i),title,description, post.getId());
+            postService.uploadPostMedia(media.get(i),post.getId(),false);
         }
-        uploadPostMedia(postImage,title,description,post.getId());
-        return "redirect:/managePosts";
+        postService.uploadPostMedia(postImage,post.getId(),true);
+        return "redirect:/home";
     }
 
     @GetMapping("/viewPost/{id}")
