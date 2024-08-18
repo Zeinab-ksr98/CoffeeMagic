@@ -61,4 +61,7 @@ public class FileUploadService {
         // Generate the URL for accessing the file
         return String.format("%s/%s/%s", minioEndpoint, bucketName, fileName);
     }
+    public void delete(Media media) {
+        mediaRepository.delete(media);
+    }
 }

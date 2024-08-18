@@ -6,20 +6,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Delicious Meal</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.2/font/bootstrap-icons.css'>
+
+    <style>
+        .inclined-image {
+            clip-path: polygon(20% 0, 100% 0, 100% 100%, 0% 100%);
+
+        }
+    </style>
 </head>
 
-<body class="bg-gray-50 font-sans">
+<body class="font-sans" style="background-color: #8e4924; height: 100vh; overflow: hidden;">
+<div class=" mx-auto p-8 flex flex-col md:flex-row items-center justify-between h-full" >
+    <div class="md:w-1/2 ml-1 md:text-left mb-8 md:mb-0" >
+        <div class=" container mx-auto p-8">
 
-<div class="container mx-auto p-8 flex flex-col md:flex-row items-center justify-between">
-    <div class="md:w-1/2 text-center md:text-left mb-8 md:mb-0">
-        <p class="text-yellow-500 font-bold">50% Off For All Product</p>
-        <h1 class="text-4xl font-bold mt-2">Enjoy Your <span class="text-yellow-500">Special</span> Delicious Meal <span>🔥</span></h1>
-        <p class="mt-4 text-gray-600">We make it easy for you to give your guests the same experience online that they expect within your doors.</p>
+        <p class="text-yellow-500 font-bold" th:text="${post.public}"></p>
+        <h5 class="text-yellow-500 font-bold" th:text="${post.description}"></h5>
+        <h1 class="text-4xl font-bold mt-2 text-white" th:text="${post.title}"></h1>
+        <p class="mt-4 text-gray-200" th:text="${post.ingredients}"></p>
+        <p class="mt-4 text-gray-200" th:text="${post.instructions}"></p>
+
         <div class="mt-6 flex justify-center md:justify-start space-x-4">
-            <button class="bg-yellow-500 text-white font-bold py-2 px-4 rounded-full">Order Now</button>
+
             <button class="bg-white text-gray-700 border border-gray-300 font-bold py-2 px-4 rounded-full flex items-center">
-                <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                     xmlns="http://www.w3.org/2000/svg">
+                <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                           d="M14.752 11.168l-5.197-3.03A1 1 0 008 9.061v5.878a1 1 0 001.555.832l5.197-3.03a1 1 0 000-1.664z"></path>
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -27,50 +39,32 @@
                 </svg>
                 Watch Video
             </button>
+            <button th:href="@{/deletePost/{id}(id=${post.postImage})}" class="bg-white text-gray-700 border border-gray-300 font-bold py-2 px-4 rounded-full flex items-center">
+                Edit Details
+            </button>
+            <button class="bg-danger text-white border border-danger font-bold py-2 px-4 rounded-full flex items-center" >
+                Delete
+            </button>
+        </div>
         </div>
     </div>
-    <div class="md:w-1/2">
-        <img src="https://placehold.co/600x400" alt="Delicious Meal">
+    <div class="md:w-1/2 h-full">
+        <form th:action="@{/uploadPostImage}" method="post" enctype="multipart/form-data" class="position-absolute top-0 end-0 p-2" id="postImageForm">
+            <input type="hidden" name="PostId" th:value="${post.id}">
+            <input type="file" name="media" accept="image/*" style="display: none;" id="postImageInput" onchange="submitPostImageForm();">
+            <button type="button" class="btn" onclick="document.getElementById('postImageInput').click();">
+                <i class="bi bi-camera"></i>
+            </button>
+        </form>
+        <img th:src="${post.postImage.fileName}" alt="Delicious Meal" class="w-full h-full object-cover inclined-image">
     </div>
-</div>
 
-<div class="container mx-auto p-8 grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-    <div class="bg-white p-4 rounded-lg shadow-md">
-        <div class="flex justify-center items-center">
-            <svg class="w-8 h-8 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                 xmlns="http://www.w3.org/2000/svg">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="M12 8c.736 0 1.413-.213 2-.58m-4 0c.587.367 1.264.58 2 .58m0 0V12m0 0a3.5 3.5 0 01-7 0m7 0h3.5A2.5 2.5 0 1012 14.5m0 0h-1m1 0v1.5m0-4V12m0 0a3.5 3.5 0 01-7 0m7 0H9m7-3.5A2.5 2.5 0 1012 12m0 0h1.5m0 0H15M12 12v1.5"></path>
-            </svg>
-            <p class="text-2xl font-bold ml-2">(4.8) 15K Reviews</p>
-        </div>
-    </div>
-    <div class="bg-white p-4 rounded-lg shadow-md">
-        <div class="flex justify-center items-center">
-            <svg class="w-8 h-8 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                 xmlns="http://www.w3.org/2000/svg">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="M3 15a4 4 0 01.78-2.5L12 3l8.22 9.5A4 4 0 0121 15H3zm0 0v2a1 1 0 001 1h16a1 1 0 001-1v-2m-8 4v2a1 1 0 11-2 0v-2m6 0a1 1 0 001-1m-12 0a1 1 0 00-1-1"></path>
-            </svg>
-            <p class="text-2xl font-bold ml-2">400+ Restaurants</p>
-        </div>
-    </div>
-    <div class="bg-white p-4 rounded-lg shadow-md">
-        <div class="flex justify-center items-center">
-            <svg class="w-8 h-8 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                 xmlns="http://www.w3.org/2000/svg">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="M12 7c-1.855 0-3.305 1.444-3.305 3.222v1.556A3.307 3.307 0 0012 15h0a3.307 3.307 0 003.305-3.222v-1.556C15.305 8.444 13.855 7 12 7z"></path>
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="M12 7V5a3 3 0 00-3-3h0a3 3 0 00-3 3v2"></path>
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="M15 13h2a3 3 0 003-3h0a3 3 0 00-3-3h-2"></path>
-            </svg>
-            <p class="text-2xl font-bold ml-2">7000+ Food Items</p>
-        </div>
-    </div>
 </div>
 
 </body>
-
+<script>
+    function submitPostImageForm() {
+        document.getElementById('postImageForm').submit();
+    }
+</script>
 </html>

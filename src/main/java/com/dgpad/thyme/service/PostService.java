@@ -57,6 +57,7 @@ public class PostService {
     }
 
     public void deletePost(UUID id) {
+        fileUploadService.delete(getPostById(id).getPostImage());
         postRepository.deleteById(id);
     }
 

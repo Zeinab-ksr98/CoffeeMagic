@@ -6,6 +6,7 @@ import com.dgpad.thyme.model.Post;
 import com.dgpad.thyme.model.Media;
 import com.dgpad.thyme.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -40,39 +41,10 @@ public class accountController {
         model.addAttribute("blogs", blogService.getAllBlogs());
         return "Admin/Dashboard";
     }
-
-
-    @GetMapping(value = "/test2")
-    public String test2(Model model) {
-        return "account/display1";
-    }
-
-
-    //for all users
-    @GetMapping(value = "/managePosts")
-    public String managePosts(Model model) {
-        model.addAttribute("user", userService.getCurrentUser());
-        return "Admin/managePosts";
-    }
-    @PostMapping("/uploadPostMedia")
-    @PreAuthorize("hasAnyAuthority('ADMIN')")
-    public String uploadPostMedia(@RequestParam("file") MultipartFile file,
-                                    @RequestParam("title") String title,
-                                    @RequestParam("description") String description,
-                                    @RequestParam("PostId") UUID postId) throws Exception {
-        Media media = fileUploadService.uploadMedia(file);
-        Post post = postService.getPostById(postId);
-        if (post != null) {
-            post.postMedias.add(media);
-            postService.save(post);
-        }
-        return "redirect:/managePosts";
-    }
-
     @PostMapping("/createPost")
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     public String createMajlis(@RequestParam("title") String title, @RequestParam("description") String description,
-                               @RequestParam("servings") int servings,@RequestParam("instructions") String instructions,@RequestParam("ingredients") String ingredients,@RequestParam("media") List<MultipartFile> media,@RequestParam("postImage") MultipartFile postImage) throws Exception {
+                               @RequestParam("servings") int servings, @RequestParam("instructions") String instructions, @RequestParam("ingredients") String ingredients, @RequestParam("postImage") MultipartFile postImage, @Param("media") List<MultipartFile> media) throws Exception {
         Post post = postService.createPost(title,description,ingredients,servings,instructions);
         for (int i = 0; i < media.size(); i++) {
             postService.uploadPostMedia(media.get(i),post.getId(),false);
@@ -84,8 +56,42 @@ public class accountController {
     @GetMapping("/viewPost/{id}")
     public String viewPost(Model model,@PathVariable UUID id) {
         model.addAttribute("post", postService.getPostById(id));
+        return "account/display";
+    }
+    @GetMapping("/deletePost/{id}")
+    public String deletePost(Model model,@PathVariable UUID id) {
+        postService.deletePost(id);
+        return "redirect:/home";
+    }
+    @PostMapping("/uploadPostMedia")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    public String uploadPostMedia(@RequestParam("media") List<MultipartFile> media,
+                                  @RequestParam("PostId") UUID postId) throws Exception {
+        Post post = postService.getPostById(postId);
+        if (post != null) {
+            for (int i = 0; i < media.size(); i++) {
+                postService.uploadPostMedia(media.get(i),post.getId(),false);
+            }
+        }
+        return "redirect:/home";
+    }
+    @PostMapping("/uploadPostImage")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    public String uploadPostImage(@RequestParam("media") MultipartFile media,
+                                  @RequestParam("PostId") UUID postId) throws Exception {
+        Post post = postService.getPostById(postId);
+        if (post != null) {
+                postService.uploadPostMedia(media,post.getId(),true);
+
+        }
+        return "redirect:/home";
+    }
+
+
+    @GetMapping(value = "/managePosts")
+    public String managePosts(Model model) {
         model.addAttribute("user", userService.getCurrentUser());
-        return "account/displayPost";
+        return "Admin/managePosts";
     }
 
     @GetMapping("/manage-users")
