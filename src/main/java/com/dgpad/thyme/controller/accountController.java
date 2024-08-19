@@ -1,9 +1,6 @@
 package com.dgpad.thyme.controller;
 import com.dgpad.thyme.media.FileUploadService;
-import com.dgpad.thyme.model.User;
-import com.dgpad.thyme.model.Role;
-import com.dgpad.thyme.model.Post;
-import com.dgpad.thyme.model.Media;
+import com.dgpad.thyme.model.*;
 import com.dgpad.thyme.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
@@ -38,7 +35,6 @@ public class accountController {
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     public String home(Model model) {
         model.addAttribute("posts", postService.getAllPosts());
-        model.addAttribute("blogs", blogService.getAllBlogs());
         return "Admin/Dashboard";
     }
     @PostMapping("/createPost")
@@ -64,7 +60,7 @@ public class accountController {
         return "redirect:/home";
     }
     @GetMapping("/editPost")
-    public String createMajlis(@RequestParam("id") UUID id,@RequestParam("title") String title, @RequestParam("description") String description,
+    public String createPost(@RequestParam("id") UUID id,@RequestParam("title") String title, @RequestParam("description") String description,
                                @RequestParam("servings") int servings, @RequestParam("instructions") String instructions, @RequestParam("ingredients") String ingredients) throws Exception {
         Post post = postService.editPost(id,title,description,ingredients,servings,instructions);
         return "redirect:/home";
@@ -93,11 +89,44 @@ public class accountController {
         return "redirect:/home";
     }
 
+    @GetMapping(value = "/blogs")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    public String blogs(Model model) {
+        model.addAttribute("blogs", blogService.getAllBlogs());
+        return "Admin/blogs";
+    }
+    @PostMapping("/createPost")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    public String createBlog(@RequestParam("title") String title, @RequestParam("description") String description,  @RequestParam("postImage") MultipartFile postImage) throws Exception {
+        Blog post = blogService.createBlog(title,description);
+        blogService.uploadBlogMedia(postImage,post.getId());
+        return "redirect:/blogs";
+    }
 
-    @GetMapping(value = "/managePosts")
-    public String managePosts(Model model) {
-        model.addAttribute("user", userService.getCurrentUser());
-        return "Admin/managePosts";
+    @GetMapping("/viewBlog/{id}")
+    public String viewBlog(Model model,@PathVariable UUID id) {
+        model.addAttribute("blog", blogService.getBlogById(id));
+        return "account/displayBlog";
+    }
+    @GetMapping("/deleteBlog/{id}")
+    public String deleteBlog(@PathVariable UUID id) {
+        blogService.deleteBlog(id);
+        return "redirect:/blogs";
+    }
+    @GetMapping("/editBlog")
+    public String createBlog(@RequestParam("id") UUID id,@RequestParam("title") String title, @RequestParam("description") String description) throws Exception {
+        Blog post = blogService.editBlog(id,title,description);
+        return "redirect:/blogs";
+    }
+    @PostMapping("/uploadBlogImage")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    public String uploadBlogImage(@RequestParam("media") MultipartFile media,
+                                  @RequestParam("PostId") UUID postId) throws Exception {
+        Blog blog = blogService.getBlogById(postId);
+        if (blog != null) {
+            blogService.uploadBlogMedia(media,blog.getId());
+        }
+        return "redirect:/blogs";
     }
 
     @GetMapping("/manage-users")

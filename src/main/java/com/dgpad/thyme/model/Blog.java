@@ -34,9 +34,6 @@ public class Blog {
     @OneToOne
     @JoinColumn(name = "main_image_id")
     private Media BlogImage; // One main image
-    @OneToMany(mappedBy = "blog", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Media> blogMedias;
-
 
     @Column(nullable = false)
     private int viewsCount = 0;
