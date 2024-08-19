@@ -1,4 +1,4 @@
-# CoffeeMagic Project - README
+# CoffeeMagic Project
 
 ## Project Overview
 
