@@ -19,8 +19,8 @@
 
 
 - **Backend:**
-  - ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-6DB33F?logo=spring-boot&logoColor=white)  ![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=flat&logo=openjdk&logoColor=white)
-
+  - ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-6DB33F?logo=spring-boot&logoColor=white)
+  - ![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=flat&logo=openjdk&logoColor=white)
   - ![Maven](https://img.shields.io/badge/Maven-C71A36?logo=apache-maven&logoColor=white) 
   -  ![Thymeleaf](https://img.shields.io/badge/Thymeleaf-%23005C0F.svg?style=flat&logo=Thymeleaf&logoColor=white)
   -   ![Hibernate](https://img.shields.io/badge/Hibernate-59666C?style=flat&logo=Hibernate&logoColor=white)
@@ -32,7 +32,7 @@
   - ![Bootstrap](https://img.shields.io/badge/bootstrap-%238511FA.svg?style=flat&logo=bootstrap&logoColor=white)
 
 - **Containerization:**
-  - ![Docker](https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white) **Docker:** Containerization platform used to create, deploy, and run applications using containers. MinIO is run as a Docker image for object storage.
+  - ![Docker](https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white) 
 - **DataBase**
   ![MySQL](https://img.shields.io/badge/mysql-4479A1.svg?style=flat&logo=mysql&logoColor=white)
 
