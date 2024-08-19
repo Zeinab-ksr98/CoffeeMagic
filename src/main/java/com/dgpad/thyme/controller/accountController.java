@@ -95,7 +95,7 @@ public class accountController {
         model.addAttribute("blogs", blogService.getAllBlogs());
         return "Admin/blogs";
     }
-    @PostMapping("/createPost")
+    @PostMapping("/createBlog")
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     public String createBlog(@RequestParam("title") String title, @RequestParam("description") String description,  @RequestParam("postImage") MultipartFile postImage) throws Exception {
         Blog post = blogService.createBlog(title,description);

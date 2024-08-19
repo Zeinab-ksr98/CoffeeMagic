@@ -22,7 +22,7 @@ public class securityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
         return httpSecurity.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> {
-                    auth.requestMatchers("/users/**","/admin/forget_pass","/admin/create-initial-admin","/test","/admin/forgetPage","/SignUp","/Main/**","/images/**","/css/**", "/js/**","/bundles/**","/verify").permitAll();
+                    auth.requestMatchers("/users/**","/viewPost/**","/admin/forget_pass","/admin/create-initial-admin","/test","/admin/forgetPage","/SignUp","/Main/**","/images/**","/css/**", "/js/**","/bundles/**","/verify").permitAll();
                     auth.anyRequest().authenticated();
                 })
                 .formLogin((form) ->{
