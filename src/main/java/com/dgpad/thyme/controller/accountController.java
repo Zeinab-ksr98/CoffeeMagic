@@ -88,7 +88,7 @@ public class accountController {
         }
         return "redirect:/home";
     }
-
+//manage blogs
     @GetMapping(value = "/blogs")
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     public String blogs(Model model) {
@@ -103,11 +103,11 @@ public class accountController {
         return "redirect:/blogs";
     }
 
-    @GetMapping("/viewBlog/{id}")
-    public String viewBlog(Model model,@PathVariable UUID id) {
-        model.addAttribute("blog", blogService.getBlogById(id));
-        return "account/displayBlog";
-    }
+//    @GetMapping("/viewBlog/{id}")
+//    public String viewBlog(Model model,@PathVariable UUID id) {
+//        model.addAttribute("blog", blogService.getBlogById(id));
+//        return "Admin/blogs";
+//    }
     @GetMapping("/deleteBlog/{id}")
     public String deleteBlog(@PathVariable UUID id) {
         blogService.deleteBlog(id);
