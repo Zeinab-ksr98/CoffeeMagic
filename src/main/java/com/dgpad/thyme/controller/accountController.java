@@ -59,8 +59,14 @@ public class accountController {
         return "account/display";
     }
     @GetMapping("/deletePost/{id}")
-    public String deletePost(Model model,@PathVariable UUID id) {
+    public String deletePost(@PathVariable UUID id) {
         postService.deletePost(id);
+        return "redirect:/home";
+    }
+    @GetMapping("/editPost")
+    public String createMajlis(@RequestParam("id") UUID id,@RequestParam("title") String title, @RequestParam("description") String description,
+                               @RequestParam("servings") int servings, @RequestParam("instructions") String instructions, @RequestParam("ingredients") String ingredients) throws Exception {
+        Post post = postService.editPost(id,title,description,ingredients,servings,instructions);
         return "redirect:/home";
     }
     @PostMapping("/uploadPostMedia")

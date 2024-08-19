@@ -37,6 +37,15 @@ public class PostService {
         post.setCreatedDate(LocalDate.now());
         return postRepository.save(post);
     }
+    public Post editPost(UUID id ,String title, String description, String ingredients, int servings, String instructions) {
+        Post post = getPostById(id);
+        post.setTitle(title);
+        post.setDescription(description);
+        post.setIngredients(ingredients);
+        post.setInstructions(instructions);
+        post.setServings(servings);
+        return postRepository.save(post);
+    }
     public Post uploadPostMedia( MultipartFile file, UUID postId, boolean IsPostImage) throws IOException {
         Media media = fileUploadService.uploadMedia(file);
         Post post = getPostById(postId);
@@ -58,6 +67,10 @@ public class PostService {
 
     public void deletePost(UUID id) {
         fileUploadService.delete(getPostById(id).getPostImage());
+        List<Media> media =getPostById(id).getPostMedias();
+        for (Media value : media) {
+            fileUploadService.delete(value);
+        }
         postRepository.deleteById(id);
     }
 

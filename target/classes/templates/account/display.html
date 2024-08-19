@@ -8,6 +8,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.2/font/bootstrap-icons.css'>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
 
     <style>
         .inclined-image {
@@ -30,7 +31,7 @@
 
         <div class="mt-6 flex justify-center md:justify-start space-x-4">
 
-            <button class="bg-white text-gray-700 border border-gray-300 font-bold py-2 px-4 rounded-full flex items-center">
+            <button data-toggle="modal" data-target="#mediaListModal" class="bg-white text-gray-700 border border-gray-300 font-bold py-2 px-4 rounded-full flex items-center">
                 <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                           d="M14.752 11.168l-5.197-3.03A1 1 0 008 9.061v5.878a1 1 0 001.555.832l5.197-3.03a1 1 0 000-1.664z"></path>
@@ -39,12 +40,12 @@
                 </svg>
                 Watch Video
             </button>
-            <button th:href="@{/deletePost/{id}(id=${post.postImage})}" class="bg-white text-gray-700 border border-gray-300 font-bold py-2 px-4 rounded-full flex items-center">
+            <button class="bg-white text-gray-700 border border-gray-300 font-bold py-2 px-4 rounded-full flex items-center" data-toggle="modal" data-target="#editPostModal" >
                 Edit Details
             </button>
-            <button class="bg-danger text-white border border-danger font-bold py-2 px-4 rounded-full flex items-center" >
+            <a th:href="@{/deletePost/{id}(id=${post.id})}" class=" btn bg-danger text-white border border-danger font-bold py-2 px-4 rounded-full flex items-center" >
                 Delete
-            </button>
+            </a>
         </div>
         </div>
     </div>
@@ -58,13 +59,70 @@
         </form>
         <img th:src="${post.postImage.fileName}" alt="Delicious Meal" class="w-full h-full object-cover inclined-image">
     </div>
-
+</div>
+<div class="modal fade" id="editPostModal" tabindex="-1" role="dialog" aria-labelledby="editPostModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editPostModalLabel">Edit Post</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="editPostForm" th:action="@{/editPost}" method="get">
+                    <input type="hidden" th:value="${post.id}" name="id" id="postId">
+                    <div class="form-group">
+                        <label for="postTitle">Title</label>
+                        <input type="text" class="form-control" th:field="${post.title}" id="postTitle" name="title" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="postDescription">Description</label>
+                        <textarea class="form-control" id="postDescription"th:field="${post.description}" name="description" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="postServings">Servings</label>
+                        <input type="number" class="form-control" id="postServings" th:field="${post.servings}" name="servings" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="postIngredients">Ingredients</label>
+                        <textarea class="form-control" id="postIngredients" th:field="${post.ingredients}" name="ingredients" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="postInstructions">Instructions</label>
+                        <textarea class="form-control" id="postInstructions" th:field="${post.instructions}" name="instructions" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 
+<div class="modal fade" id="mediaListModal" tabindex="-1" role="dialog" aria-labelledby="mediaListModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="mediaListModalLabel">Media List</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div th:each="media : ${post.postMedias}">
+                    <img th:src="@{${media.fileName}}" alt="image" class="img-fluid mb-2">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 <script>
     function submitPostImageForm() {
         document.getElementById('postImageForm').submit();
     }
 </script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </html>
