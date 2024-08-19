@@ -17,14 +17,22 @@
 
 ## Tech Stack
 
+
 - **Backend:**
-  - ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-6DB33F?logo=spring-boot&logoColor=white) **Spring Boot:** Java-based framework used for creating the backend RESTful API.
-  - ![Maven](https://img.shields.io/badge/Maven-C71A36?logo=apache-maven&logoColor=white) **Maven:** Build automation tool used for project management and dependency management.
-  - ![MinIO](https://img.shields.io/badge/MinIO-00A3E0?logo=minio&logoColor=white) **MinIO:** High-performance, S3 compatible object storage used for storing media files.
+  - ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-6DB33F?logo=spring-boot&logoColor=white)  ![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=flat&logo=openjdk&logoColor=white)
+
+  - ![Maven](https://img.shields.io/badge/Maven-C71A36?logo=apache-maven&logoColor=white) 
+  -  ![Thymeleaf](https://img.shields.io/badge/Thymeleaf-%23005C0F.svg?style=flat&logo=Thymeleaf&logoColor=white)
+  -   ![Hibernate](https://img.shields.io/badge/Hibernate-59666C?style=flat&logo=Hibernate&logoColor=white)
+  - ![MinIO](https://img.shields.io/badge/MinIO-00A3E0?logo=minio&logoColor=white) used for storing media files.
 
 - **Frontend:**
-  - ![HTML](https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white) **HTML:** Markup language used for creating the structure of the web pages.
-  - ![CSS](https://img.shields.io/badge/CSS3-1572B6?logo=css3&logoColor=white) **CSS:** Style sheet language used for designing and enhancing the appearance of the web pages.
+  - ![HTML](https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white) 
+  - ![CSS](https://img.shields.io/badge/CSS3-1572B6?logo=css3&logoColor=white) 
+  - ![Bootstrap](https://img.shields.io/badge/bootstrap-%238511FA.svg?style=flat&logo=bootstrap&logoColor=white)
 
 - **Containerization:**
   - ![Docker](https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white) **Docker:** Containerization platform used to create, deploy, and run applications using containers. MinIO is run as a Docker image for object storage.
+- **DataBase**
+  ![MySQL](https://img.shields.io/badge/mysql-4479A1.svg?style=flat&logo=mysql&logoColor=white)
+
