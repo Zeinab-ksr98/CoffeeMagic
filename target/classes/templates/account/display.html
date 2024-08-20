@@ -22,8 +22,6 @@
 <div class=" mx-auto p-8 flex flex-col md:flex-row items-center justify-between h-full" >
     <div class="md:w-1/2 ml-1 md:text-left mb-8 md:mb-0" >
         <div class=" container mx-auto p-8">
-
-        <p class="text-yellow-500 font-bold" th:text="${post.public}"></p>
         <h5 class="text-yellow-500 font-bold" th:text="${post.description}"></h5>
         <h1 class="text-4xl font-bold mt-2 text-white" th:text="${post.title}"></h1>
         <p class="mt-4 text-gray-200" th:text="${post.ingredients}"></p>
@@ -40,10 +38,10 @@
                 </svg>
                 Watch Video
             </button>
-            <button class="bg-white text-gray-700 border border-gray-300 font-bold py-2 px-4 rounded-full flex items-center" data-toggle="modal" data-target="#editPostModal" >
+            <button th:if="${!Visitor}" class="bg-white text-gray-700 border border-gray-300 font-bold py-2 px-4 rounded-full flex items-center" data-toggle="modal" data-target="#editPostModal" >
                 Edit Details
             </button>
-            <a th:href="@{/deletePost/{id}(id=${post.id})}" class=" btn bg-danger text-white border border-danger font-bold py-2 px-4 rounded-full flex items-center" >
+            <a th:if="${!Visitor}" th:href="@{/deletePost/{id}(id=${post.id})}" class=" btn bg-danger text-white border border-danger font-bold py-2 px-4 rounded-full flex items-center" >
                 Delete
             </a>
         </div>

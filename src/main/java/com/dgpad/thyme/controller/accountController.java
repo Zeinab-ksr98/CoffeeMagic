@@ -52,6 +52,8 @@ public class accountController {
     @GetMapping("/viewPost/{id}")
     public String viewPost(Model model,@PathVariable UUID id) {
         model.addAttribute("post", postService.getPostById(id));
+        model.addAttribute("Visitor", userService.getCurrentUser()==null);
+
         return "account/display";
     }
     @GetMapping("/deletePost/{id}")
@@ -103,11 +105,13 @@ public class accountController {
         return "redirect:/blogs";
     }
 
-//    @GetMapping("/viewBlog/{id}")
-//    public String viewBlog(Model model,@PathVariable UUID id) {
-//        model.addAttribute("blog", blogService.getBlogById(id));
-//        return "Admin/blogs";
-//    }
+    @GetMapping("/viewBlog/{id}")
+    public String viewBlog(Model model,@PathVariable UUID id) {
+        model.addAttribute("blog", blogService.getBlogById(id));
+        model.addAttribute("Visitor", userService.getCurrentUser()==null);
+
+        return "Admin/displayBlog";
+    }
     @GetMapping("/deleteBlog/{id}")
     public String deleteBlog(@PathVariable UUID id) {
         blogService.deleteBlog(id);
@@ -136,14 +140,23 @@ public class accountController {
         model.addAttribute("users", userService.getAllUsersNotBlocked());
         return "Admin/manage-users";
     }
-    @PostMapping(value = "/admin-create-withRole")
+    @PostMapping(value = "/createAdmin")
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     public String createAdmin(@RequestParam("username") String userName,
-                              @RequestParam("email") String email,
-                              @RequestParam("phone") String phone,Model model) throws IOException {
-        User user = new User(userName, email, "123", phone,Role.ADMIN);
+                              @RequestParam("email") String email){
+        User user = new User(userName, email, "123",Role.ADMIN,false);
         userService.createUser(user);
         return "redirect:/manage-users";
     }
+    @PostMapping("/edit-account")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    public String editUserProfile(@RequestParam("id") UUID id, @RequestParam("updatedName") String name, @RequestParam("updatedEmail") String email) {
+        User user= userService.getUserById(id);
+        user.setUsername(name);
+        user.setEmail(email);
+        userService.save(user);
+        return "redirect:/manage-users";
+    }
+
 
 }

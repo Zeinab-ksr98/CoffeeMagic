@@ -25,11 +25,6 @@ public class User {
     @NotBlank(message = "Username cannot be blank")
     @Column(nullable = false, unique = true)
     private String username;
-
-    @Pattern(regexp = "^[0-9]*$", message = "Phone must contain only digits")
-    @Size(min = 3, message = "Phone number must be at least 3 digits")
-    private String phone;
-    private String about;
     @Email(message = "Invalid email format")
     @NotBlank(message = "Email cannot be blank")
     @Column(nullable = false, unique = true)
@@ -43,14 +38,14 @@ public class User {
     @Enumerated(EnumType.STRING)
     @Column(name = "role")
     private Role role;
+    public Boolean IsAdministrative=false;
 
     public boolean deleted;
     private boolean enabled;
-    public User(String username, String email, String password, String phone, Role role) {
+    public User(String username, String email, String password, Role role,Boolean IsAdministrative) {
         this.username = username;
         this.email = email;
         this.password = password;
-        this.phone = phone;
         this.role = role;
         this.enabled = true;
         this.deleted = false;

@@ -36,7 +36,6 @@ public class Post {
     private int Servings;
     @Column(nullable = false)
     private LocalDate createdDate;
-    public Boolean Public;
     @OneToOne
     @JoinColumn(name = "main_image_id")
     private Media PostImage; // One main image

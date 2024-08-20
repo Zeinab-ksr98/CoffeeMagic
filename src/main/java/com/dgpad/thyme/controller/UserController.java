@@ -50,7 +50,7 @@ public class UserController {
     @GetMapping(value = "/create-initial-admin")
     public String createInitialAdmin(){
         System.out.println("hi");
-        User user = new User("Admin", "zk@gmail.com", "123", "03010131", Role.ADMIN);
+        User user = new User("Admin", "zk@gmail.com", "123", Role.ADMIN,true);
         try{
             User admin = userService.createUser(user);
             System.out.println("done");

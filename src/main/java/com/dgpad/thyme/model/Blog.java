@@ -24,13 +24,12 @@ public class Blog {
     @NotBlank(message = "Title cannot be blank")
     @Column(nullable = false)
     private String title;
-
+    @Lob
+    @Column(nullable = false, columnDefinition = "TEXT")
     @NotBlank(message = "Description cannot be blank")
-    @Column(nullable = false)
     private String description;
     @Column(nullable = false)
     private LocalDate createdDate;
-    public Boolean Public;
     @OneToOne
     @JoinColumn(name = "main_image_id")
     private Media BlogImage; // One main image

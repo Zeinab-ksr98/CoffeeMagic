@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Details</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.2/font/bootstrap-icons.css'>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body style="background-color: #8e4924">
+<section class="flex items-center justify-center py-20">
+    <div class="max-w-6xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden flex">
+        <!-- Text Section -->
+        <div class="w-1/2 p-10">
+            <h1 class="text-4xl font-bold mb-5">
+                <!-- Display the blog title with the first word in yellow and the rest in black -->
+                <span style="color: #8e4924" th:text="${#strings.substringBefore(blog.title, ' ')}"></span>
+                <span class="text-gray-800" th:text="${#strings.substringAfter(blog.title, ' ')}"></span>
+            </h1>
+            <p class="text-gray-600 leading-relaxed mb-5" th:utext="${blog.description}">
+            </p>
+            <p class="text-gray-500 mb-3">
+                <strong>Created on:</strong> <span th:text="${blog.createdDate}"></span>
+            </p>
+            <p class="text-gray-500 mb-3">
+                <!-- Display the blog's views count -->
+                <strong>Views:</strong> <span th:text="${blog.viewsCount}"></span>
+            </p>
+            <a href="#" style="background-color: #8e4924" th:if="${!Visitor}" data-toggle="modal" data-target="#editPostModal" class="inline-block  text-white py-2 px-4 rounded-lg hover:bg-yellow-700 transition duration-300">
+                Edit Blog
+            </a>
+            <a th:href="@{/deleteBlog/{id}(id=${blog.id})}" style="background-color: #8e4924" th:if="${!Visitor}"  class="inline-block  text-white py-2 px-4 rounded-lg hover:bg-yellow-700 transition duration-300">
+                Delete Blog
+            </a>
+        </div>
+        <!-- Image Section -->
+        <div class="w-1/2">
+            <!-- Display the blog image -->
+            <img th:src="@{${blog.blogImage.fileName}}" alt="Blog Image" class="object-cover  h-full">
+        </div>
+    </div>
+</section>
+</body>
+<div class="modal fade" id="editPostModal" tabindex="-1" role="dialog" aria-labelledby="editPostModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editPostModalLabel">Edit Post</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="editPostForm" th:action="@{/editBlog}" method="get">
+                    <input type="hidden" th:value="${blog.id}" name="id" id="postId">
+                    <div class="form-group">
+                        <label for="postTitle">Title</label>
+                        <input type="text" class="form-control" th:field="${blog.title}" id="postTitle" name="title" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="postDescription">Description</label>
+                        <textarea class="form-control" id="postDescription" th:field="${blog.description}" name="description" required></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</html>

@@ -101,15 +101,17 @@
     </div>
     <div class="row">
         <div th:each="post : ${blogs}" class="col-lg-3 py-2">
-                <div class="card p-0">
+            <a th:href="@{/viewBlog/{id}(id=${post.id})}">
+            <div class="card p-0">
                     <div class="card-image">
                         <img th:src="${post.blogImage.fileName}" alt=" ">
                     </div>
                     <div class="card-content d-flex flex-column align-items-center">
                         <h4 class="pt-2" th:text="${post.title}"></h4>
-                        <h5 th:text="${post.description}"></h5>
+                        <h5 th:text="${#strings.substring(post.description, 0, 40)} + '...'"></h5>
                     </div>
                 </div>
+            </a>
         </div>
     </div>
 
