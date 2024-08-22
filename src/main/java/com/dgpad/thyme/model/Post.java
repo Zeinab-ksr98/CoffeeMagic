@@ -25,13 +25,13 @@ public class Post {
     @Column(nullable = false)
     private String title;
 
-    @NotBlank(message = "Description cannot be blank")
+    @Lob
     @Column(nullable = false, columnDefinition = "TEXT")
-    private String description;
-    @Column(nullable = false, columnDefinition = "TEXT") // Ensuring enough length for instructions
     private String ingredients;
+    @Lob
     @Column(nullable = false, columnDefinition = "TEXT")
     private String Instructions;
+
     @Column(nullable = false)
     private int Servings;
     @Column(nullable = false)

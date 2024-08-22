@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Coffee Blog</title>
+    <title>Coffee Magic</title>
+    <link rel="icon" href="https://img.icons8.com/laces/64/FFFFFF/coffee-beans-.png" type="image/png" sizes="44x44">
+
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
@@ -94,7 +96,7 @@
                         <div class="icon"></div>
                         <div class="icon"></div>
                     </div>
-                    <a href="#" class="text-yellow-500">More</a>
+                    <a th:href="@{/viewBlog/{id}(id=${blog.id})}" class="text-yellow-500">More</a>
                 </div>
             </div>
         </div>

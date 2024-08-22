@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Service
 public class FileUploadService {
@@ -63,5 +64,11 @@ public class FileUploadService {
     }
     public void delete(Media media) {
         mediaRepository.delete(media);
+    }
+    public void deletebyId(UUID id) {
+        mediaRepository.deleteById(id);
+    }
+    public Media findbyId(UUID id) {
+        return mediaRepository.findById(id).orElse(null);
     }
 }

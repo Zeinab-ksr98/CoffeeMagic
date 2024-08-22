@@ -17,12 +17,9 @@ public class Media {
     private UUID id;
     @Column(nullable = false)
     private String fileName; // Name of the file stored in MinIO
-
-
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User owner; // User who uploaded the video
-
     @ManyToOne
     @JoinColumn(name = "post_id")
     private Post post; // Link to Post

@@ -52,7 +52,9 @@ public class BlogService {
     public void deleteBlog(UUID id) {
         blogRepository.deleteById(id);
     }
-
+    public void incrementView (UUID id){
+        getBlogById(id).incrementViews();
+    }
     public Blog save(Blog post){
         return blogRepository.save(post);
     }

@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Delicious Meal</title>
+    <title th:text="${post.title}"></title>
+    <link rel="icon" href="https://img.icons8.com/laces/64/FFFFFF/coffee-beans-.png" type="image/png" sizes="44x44">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.2/font/bootstrap-icons.css'>
@@ -13,50 +14,102 @@
     <style>
         .inclined-image {
             clip-path: polygon(20% 0, 100% 0, 100% 100%, 0% 100%);
+        }
 
+        .delete-media-btn {
+            position: absolute;
+            top: 30px;
+            right: 10px;
+            z-index: 10;
+        }
+        .home-btn {
+            position: absolute;
+            top: 20px;
+            right: 50px;
+            z-index: 10;
         }
     </style>
 </head>
 
 <body class="font-sans" style="background-color: #8e4924; height: 100vh; overflow: hidden;">
 <div class=" mx-auto p-8 flex flex-col md:flex-row items-center justify-between h-full" >
-    <div class="md:w-1/2 ml-1 md:text-left mb-8 md:mb-0" >
+
+    <div class="md:w-1/2 ml-2 md:text-left mb-8 md:mb-0" >
+        <button class="home-btn" onclick="goBack()"><img width="30" height="30" src="https://img.icons8.com/ios-glyphs/30/FFFFFF/arrow.png" alt="arrow"/></button>
+
         <div class=" container mx-auto p-8">
-        <h5 class="text-yellow-500 font-bold" th:text="${post.description}"></h5>
-        <h1 class="text-4xl font-bold mt-2 text-white" th:text="${post.title}"></h1>
-        <p class="mt-4 text-gray-200" th:text="${post.ingredients}"></p>
+
+        <h1 class="text-4xl font-bold  text-white" th:text="${post.title}"></h1>
+            <h5 class="text-yellow-500 font-bold mt-1" th:text="${post.servings}+' servings &nbsp; - &nbsp; &nbsp;'+${post.viewsCount}+' views'"></h5>
+
+            <p class="mt-4 text-gray-200" th:text="${post.ingredients}"></p>
         <p class="mt-4 text-gray-200" th:text="${post.instructions}"></p>
 
-        <div class="mt-6 flex justify-center md:justify-start space-x-4">
+        <div class="mt-6 flex justify-center md:justify-start space-x-2" th:if="${!Visitor}">
 
-            <button data-toggle="modal" data-target="#mediaListModal" class="bg-white text-gray-700 border border-gray-300 font-bold py-2 px-4 rounded-full flex items-center">
-                <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                          d="M14.752 11.168l-5.197-3.03A1 1 0 008 9.061v5.878a1 1 0 001.555.832l5.197-3.03a1 1 0 000-1.664z"></path>
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                          d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                </svg>
-                Watch Video
-            </button>
-            <button th:if="${!Visitor}" class="bg-white text-gray-700 border border-gray-300 font-bold py-2 px-4 rounded-full flex items-center" data-toggle="modal" data-target="#editPostModal" >
+            <button  class="btn btn-light rounded-full" data-toggle="modal" data-target="#editPostModal" >
                 Edit Details
             </button>
-            <a th:if="${!Visitor}" th:href="@{/deletePost/{id}(id=${post.id})}" class=" btn bg-danger text-white border border-danger font-bold py-2 px-4 rounded-full flex items-center" >
+            <form   th:action="@{/uploadPostImage}" method="post" enctype="multipart/form-data"  id="postImageForm">
+                <input type="hidden" name="PostId" th:value="${post.id}">
+                <input type="file" name="media" accept="image/*" style="display: none;" id="postImageInput" onchange="submitPostImageForm();">
+                <button type="button" class="btn btn-light rounded-full" onclick="document.getElementById('postImageInput').click();">
+                    <i class="bi bi-camera"></i> change coverImage
+                </button>
+            </form>
+            <form  th:action="@{/addPostMedia}" method="post" enctype="multipart/form-data"  id="mediaUploadForm" multiple="">
+                <input type="hidden" name="PostId" th:value="${post.id}">
+                <input type="file" name="media" accept="image/*,video/*" style="display: none;" id="mediaInput" onchange="submitMediaForm();">
+                <button  class="btn btn-light rounded-full"  onclick="document.getElementById('mediaInput').click();">
+                    <i class="bi bi-camera"></i> Upload Media
+                </button>
+            </form>
+            <a  th:href="@{/deletePost/{id}(id=${post.id})}" class=" btn btn-sm bg-danger text-white border border-danger font-bold py-2 px-4 rounded-full flex items-center" >
                 Delete
             </a>
+
         </div>
         </div>
     </div>
     <div class="md:w-1/2 h-full">
-        <form th:action="@{/uploadPostImage}" method="post" enctype="multipart/form-data" class="position-absolute top-0 end-0 p-2" id="postImageForm">
-            <input type="hidden" name="PostId" th:value="${post.id}">
-            <input type="file" name="media" accept="image/*" style="display: none;" id="postImageInput" onchange="submitPostImageForm();">
-            <button type="button" class="btn" onclick="document.getElementById('postImageInput').click();">
-                <i class="bi bi-camera"></i>
-            </button>
-        </form>
-        <img th:src="${post.postImage.fileName}" alt="Delicious Meal" class="w-full h-full object-cover inclined-image">
+
+        <div id="mediaCarousel" class="carousel slide w-full h-full object-cover inclined-image " data-ride="carousel">
+            <div class="carousel-inner h-100" >
+        <div th:each="media, iterStat : ${post.postMedias}" class="carousel-item" th:classappend="${iterStat.index == 0} ? 'active' : ''">
+            <a th:if="${!Visitor && media.id != post.postImage.id}"
+               th:href="@{/deletePostMedia/{id}(id=${media.id})}"
+               class="btn btn-sm btn-danger delete-media-btn">
+                Delete
+            </a>
+            <div th:if="${#strings.endsWith(media.fileName, '.mp4')}">
+                <video th:src="@{${media.fileName}}" controls></video>
+            </div>
+            <div th:if="${!#strings.endsWith(media.fileName, '.mp4')}">
+                <img th:src="@{${media.fileName}}" alt="Media">
+            </div>
+        </div>
+                <div th:if="${post.postMedias.size() == 0}" >
+
+                    <div th:if="${#strings.endsWith(post.postImage.fileName, '.mp4')}">
+                        <video th:src="@{${post.postImage.fileName}}" controls></video>
+                    </div>
+                    <div th:if="${!#strings.endsWith(post.postImage.fileName, '.mp4')}">
+                        <img th:src="@{${post.postImage.fileName}}" alt="Media">
+                    </div>
+                </div>
+        <a class="carousel-control-prev z-3" th:if="${post.postMedias.size() > 1 }" href="#mediaCarousel" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon"  aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next"  th:if="${post.postMedias.size() > 1}" href="#mediaCarousel" role="button"  data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
     </div>
+        </div>
+    </div>
+
+
 </div>
 <div class="modal fade" id="editPostModal" tabindex="-1" role="dialog" aria-labelledby="editPostModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -73,10 +126,6 @@
                     <div class="form-group">
                         <label for="postTitle">Title</label>
                         <input type="text" class="form-control" th:field="${post.title}" id="postTitle" name="title" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="postDescription">Description</label>
-                        <textarea class="form-control" id="postDescription"th:field="${post.description}" name="description" required></textarea>
                     </div>
                     <div class="form-group">
                         <label for="postServings">Servings</label>
@@ -96,29 +145,15 @@
         </div>
     </div>
 </div>
-
-<div class="modal fade" id="mediaListModal" tabindex="-1" role="dialog" aria-labelledby="mediaListModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="mediaListModalLabel">Media List</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div th:each="media : ${post.postMedias}">
-                    <img th:src="@{${media.fileName}}" alt="image" class="img-fluid mb-2">
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 </body>
 <script>
     function submitPostImageForm() {
         document.getElementById('postImageForm').submit();
     }
+    function goBack() {
+        window.history.back();
+    }
+
 </script>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

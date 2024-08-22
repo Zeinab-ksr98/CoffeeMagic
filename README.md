@@ -4,20 +4,14 @@
 
 **CoffeeMagic** is a vibrant online hub dedicated to coffee enthusiasts from all walks of life. Our mission is to share the enchantment and joy of coffee through an extensive collection of recipes and engaging blog posts. Whether you're a seasoned barista, a homebrew hobbyist, or just someone who loves a good cup of joe, CoffeeMagic offers something for everyone.
 
-## Features
-
-- **User Roles:**
-  - **Admin:** Create posts and blogs, manage the visibility of posts.
-  - **Visitors:** View blogs and posts about coffee, including recipes and videos.
-
-- **Content:**
-  - Coffee recipes with detailed instructions.
-  - Blog posts discussing various aspects of coffee culture.
-  - Videos showcasing coffee preparation techniques.
-
+**Key Features**
+- Content Management 
+  - Post Creation and Management
+  - Blog Management 
+  - handel Media storage through MinIO Integration:
+  Set up and configure a MinIO bucket for efficient media storage. 
+  - User Management 
 ## Tech Stack
-
-
 - **Backend:**
   - ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-6DB33F?logo=spring-boot&logoColor=white)
   - ![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=flat&logo=openjdk&logoColor=white)
@@ -30,9 +24,6 @@
   - ![HTML](https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white) 
   - ![CSS](https://img.shields.io/badge/CSS3-1572B6?logo=css3&logoColor=white) 
   - ![Bootstrap](https://img.shields.io/badge/bootstrap-%238511FA.svg?style=flat&logo=bootstrap&logoColor=white)
-
-- **Containerization:**
-  - ![Docker](https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white) 
 - **DataBase**
-  ![MySQL](https://img.shields.io/badge/mysql-4479A1.svg?style=flat&logo=mysql&logoColor=white)
+  - ![MySQL](https://img.shields.io/badge/mysql-4479A1.svg?style=flat&logo=mysql&logoColor=white)
 

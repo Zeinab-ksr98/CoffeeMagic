@@ -27,20 +27,18 @@ public class PostService {
     @Autowired
     private FileUploadService fileUploadService;
 
-    public Post createPost(String title, String description, String ingredients, int servings, String instructions) {
+    public Post createPost(String title,  String ingredients, int servings, String instructions) {
         Post post = new Post();
         post.setTitle(title);
-        post.setDescription(description);
         post.setIngredients(ingredients);
         post.setInstructions(instructions);
         post.setServings(servings);
         post.setCreatedDate(LocalDate.now());
         return postRepository.save(post);
     }
-    public Post editPost(UUID id ,String title, String description, String ingredients, int servings, String instructions) {
+    public Post editPost(UUID id ,String title, String ingredients, int servings, String instructions) {
         Post post = getPostById(id);
         post.setTitle(title);
-        post.setDescription(description);
         post.setIngredients(ingredients);
         post.setInstructions(instructions);
         post.setServings(servings);
@@ -54,9 +52,14 @@ public class PostService {
                 post.setPostImage(media);
             else
                 post.postMedias.add(media);
-            return save(post);
+            Post p= save(post);
+            media.setPost(p);
+            return p ;
         }
         return null;
+    }
+    public void incrementView (UUID id){
+        getPostById(id).incrementViews();
     }
     public List<Post> getAllPosts() {
         return postRepository.findAll();
@@ -72,6 +75,11 @@ public class PostService {
             fileUploadService.delete(value);
         }
         postRepository.deleteById(id);
+    }
+    public void deletePostMedia(UUID id) {
+        Post post =fileUploadService.findbyId(id).getPost();
+        post.getPostMedias().remove( fileUploadService.findbyId(id));
+        fileUploadService.deletebyId(id);
     }
 
     public Post save(Post post){

@@ -10,7 +10,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
@@ -24,7 +23,7 @@ public class accountController {
     @Autowired
     private BlogService blogService;
     @Autowired
-    private FileUploadService fileUploadService;
+    private FileUploadService mediaService;
     @GetMapping(value = "/Main")
     public String LandingPage(Model model) {
         model.addAttribute("posts", postService.getAllPosts());
@@ -32,18 +31,19 @@ public class accountController {
         return "account/landing page";
     }
     @GetMapping(value = "/home")
-    @PreAuthorize("hasAnyAuthority('ADMIN')")
     public String home(Model model) {
         model.addAttribute("posts", postService.getAllPosts());
-        return "Admin/Dashboard";
+        if(userService.getCurrentUser()!=null)
+            return "Admin/Dashboard";
+        return "redirect:/Main";
     }
     @PostMapping("/createPost")
     @PreAuthorize("hasAnyAuthority('ADMIN')")
-    public String createMajlis(@RequestParam("title") String title, @RequestParam("description") String description,
+    public String createMajlis(@RequestParam("title") String title,
                                @RequestParam("servings") int servings, @RequestParam("instructions") String instructions, @RequestParam("ingredients") String ingredients, @RequestParam("postImage") MultipartFile postImage, @Param("media") List<MultipartFile> media) throws Exception {
-        Post post = postService.createPost(title,description,ingredients,servings,instructions);
-        for (int i = 0; i < media.size(); i++) {
-            postService.uploadPostMedia(media.get(i),post.getId(),false);
+        Post post = postService.createPost(title,ingredients,servings,instructions);
+        for (MultipartFile multipartFile : media) {
+            postService.uploadPostMedia(multipartFile, post.getId(), false);
         }
         postService.uploadPostMedia(postImage,post.getId(),true);
         return "redirect:/home";
@@ -51,9 +51,9 @@ public class accountController {
 
     @GetMapping("/viewPost/{id}")
     public String viewPost(Model model,@PathVariable UUID id) {
+        postService.incrementView(id);
         model.addAttribute("post", postService.getPostById(id));
         model.addAttribute("Visitor", userService.getCurrentUser()==null);
-
         return "account/display";
     }
     @GetMapping("/deletePost/{id}")
@@ -61,23 +61,29 @@ public class accountController {
         postService.deletePost(id);
         return "redirect:/home";
     }
-    @GetMapping("/editPost")
-    public String createPost(@RequestParam("id") UUID id,@RequestParam("title") String title, @RequestParam("description") String description,
-                               @RequestParam("servings") int servings, @RequestParam("instructions") String instructions, @RequestParam("ingredients") String ingredients) throws Exception {
-        Post post = postService.editPost(id,title,description,ingredients,servings,instructions);
-        return "redirect:/home";
+    @GetMapping("/deletePostMedia/{id}")
+    public String  deletePostMedia(@PathVariable UUID id) {
+        UUID PostId = mediaService.findbyId(id).getPost().getId();
+        postService.deletePostMedia(id);
+        return "redirect:/viewPost/"+ PostId;
     }
-    @PostMapping("/uploadPostMedia")
+
+    @GetMapping("/editPost")
+    public String createPost(@RequestParam("id") UUID id,@RequestParam("title") String title,
+                               @RequestParam("servings") int servings, @RequestParam("instructions") String instructions, @RequestParam("ingredients") String ingredients) throws Exception {
+        Post post = postService.editPost(id,title,ingredients,servings,instructions);
+        return "redirect:/viewPost/"+ id;
+    }
+    @PostMapping("/addPostMedia")
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     public String uploadPostMedia(@RequestParam("media") List<MultipartFile> media,
                                   @RequestParam("PostId") UUID postId) throws Exception {
-        Post post = postService.getPostById(postId);
-        if (post != null) {
-            for (int i = 0; i < media.size(); i++) {
-                postService.uploadPostMedia(media.get(i),post.getId(),false);
+        if (postService.getPostById(postId) != null) {
+            for (MultipartFile multipartFile : media) {
+                postService.uploadPostMedia(multipartFile, postId, false);
             }
         }
-        return "redirect:/home";
+        return "redirect:/viewPost/" + postId;
     }
     @PostMapping("/uploadPostImage")
     @PreAuthorize("hasAnyAuthority('ADMIN')")
@@ -86,7 +92,6 @@ public class accountController {
         Post post = postService.getPostById(postId);
         if (post != null) {
                 postService.uploadPostMedia(media,post.getId(),true);
-
         }
         return "redirect:/home";
     }
@@ -107,6 +112,7 @@ public class accountController {
 
     @GetMapping("/viewBlog/{id}")
     public String viewBlog(Model model,@PathVariable UUID id) {
+        blogService.incrementView(id);
         model.addAttribute("blog", blogService.getBlogById(id));
         model.addAttribute("Visitor", userService.getCurrentUser()==null);
 

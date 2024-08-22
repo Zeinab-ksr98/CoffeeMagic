@@ -2,17 +2,32 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
+    <link rel="icon" href="https://img.icons8.com/laces/64/FFFFFF/coffee-beans-.png" type="image/png" sizes="44x44">
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog Details</title>
+    <title th:text="${blog.title}"></title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.2/font/bootstrap-icons.css'>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <style>
+        .home-btn {
+            position: absolute;
+            top: 20px;
+            right: 100px;
+            z-index: 10;
+        }
+    </style>
+    <link rel="stylesheet" href="/css/style.css" />
+
 </head>
 
-<body style="background-color: #8e4924">
+<body style="background-color: #8e4924;">
 <section class="flex items-center justify-center py-20">
+    <div class="row">
+        <button class="home-btn" onclick="goBack()"><img width="30" height="30" src="https://img.icons8.com/ios-glyphs/30/FFFFFF/arrow.png" alt="arrow"/></button>
+    </div>
     <div class="max-w-6xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden flex">
         <!-- Text Section -->
         <div class="w-1/2 p-10">
@@ -72,6 +87,11 @@
         </div>
     </div>
 </div>
+<script>
+    function goBack() {
+        window.history.back();
+    }
+</script>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
